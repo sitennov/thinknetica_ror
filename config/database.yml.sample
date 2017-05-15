@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  port: 5434
+  username: username
+  password: password
+
+development:
+  <<: *default
+  database: sitennov_development
+
+test:
+  <<: *default
+  database: sitennov_test
