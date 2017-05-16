@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   db:
@@ -9,10 +9,5 @@ services:
       - POSTGRES_PASSWORD=123654
       - POSTGRES_USER=sitennov
       - POSTGRES_DB=sitennov_development
-    volumes_from:
-      - shared_store
-      
-  shared_store:
-    image: busybox
     volumes:
-      - /var/lib/postgresql/data
+      - ~/volume/postgres-data:/var/lib/postgresql/data
