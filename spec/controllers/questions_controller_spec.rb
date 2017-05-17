@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
   let(:invalid_question) { create(:invalid_question) }
+  let(:new_attributes) {{ title: 'newtitle', body: 'newbody' }}
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -57,9 +58,9 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new question' do
-        expect {post :create,
-                params: { question: attributes_for(:question) }}
-          .to change(Question, :count).by(1)
+        expect do
+          post :create, params: { question: attributes_for(:question) }
+        end.to change(Question, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -70,14 +71,54 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'not saves the new question' do
-        expect { post :create,
-                params: { question: attributes_for(:invalid_question) }}
-          .to_not change(Question, :count)
+        expect do
+          post :create, params: { question: attributes_for(:invalid_question) }
+        end.to_not change(Question, :count)
       end
 
       it 'redirects to new view' do
         post :create, params: { question: attributes_for(:invalid_question) }
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    context 'valid attributes' do
+      it 'assings the requested question to @question' do
+        patch :update, params: { id: question.id,
+                                 question: attributes_for(:question) }
+        expect(assigns(:question)).to eq(question)
+      end
+
+      it 'changes question attributes' do
+        patch :update, params: { id: question.id, question: new_attributes }
+        question.reload
+
+        expect(question.title).to eq(new_attributes[:title])
+        expect(question.body).to eq(new_attributes[:body])
+      end
+
+      it 'redirects to show view' do
+        patch :update, params: { id: question.id,
+                                 question: attributes_for(:question) }
+        expect(response).to redirect_to question_path(assigns(:question))
+      end
+    end
+
+    context 'invalid attributes' do
+      it 'question to not changed' do
+        patch :update, params: { id: question.id,
+                                 question: attributes_for(:invalid_question) }
+        question.reload
+        expect(question.title).to eq('MyString')
+        expect(question.body).to eq('MyText')
+      end
+
+      it 'redirects to edit view' do
+        patch :update, params: { id: question.id,
+                                 question: attributes_for(:invalid_question) }
+        expect(response).to render_template :edit
       end
     end
   end
