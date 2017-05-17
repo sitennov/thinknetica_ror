@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
+  let(:invalid_question) { create(:invalid_question) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -18,7 +19,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    before { get :show, params: { id: question.id } }
+    before { get :show, params: { id: question.id }}
 
     it 'assings the requested question to @question' do
       expect(assigns(:question)).to eq(question)
@@ -42,7 +43,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { get :edit, params: { id: question.id } }
+    before { get :edit, params: { id: question.id }}
 
     it 'assings the requested question to @question' do
       expect(assigns(:question)).to eq(question)
@@ -56,7 +57,9 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new question' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        expect {post :create,
+                params: { question: attributes_for(:question) }}
+          .to change(Question, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -67,11 +70,13 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'not saves the new question' do
-        expect {post :create, params: { question: { title: 'newtitle' } } }.to_not change(Question, :count)
+        expect { post :create,
+                params: { question: attributes_for(:invalid_question) }}
+          .to_not change(Question, :count)
       end
 
       it 'redirects to new view' do
-        post :create, params: { question: { title: 'newtitle' } }
+        post :create, params: { question: attributes_for(:invalid_question) }
         expect(response).to render_template :new
       end
     end
