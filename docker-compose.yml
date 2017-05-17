@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.6
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_PASSWORD=123654
+      - POSTGRES_USER=sitennov
+      - POSTGRES_DB=sitennov_development
+    volumes:
+      - ~/volume/postgres-data:/var/lib/postgresql/data
