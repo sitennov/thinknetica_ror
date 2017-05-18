@@ -26,7 +26,7 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           post :create, params: { question_id: question.id,
                                   answer: attributes_for(:invalid_answer) }
-        end.to_not change(question.answers, :count)
+        end.to_not change(Answer, :count)
       end
 
       it 'redirects to question show view' do
