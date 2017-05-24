@@ -58,9 +58,8 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new question' do
-        expect do
-          post :create, params: { question: attributes_for(:question) }
-        end.to change(Question, :count).by(1)
+        expect { post :create, params: { question: attributes_for(:question) }
+        }.to change(Question, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -71,9 +70,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'not saves the new question' do
-        expect do
+        expect {
           post :create, params: { question: attributes_for(:invalid_question) }
-        end.to_not change(Question, :count)
+        }.to_not change(Question, :count)
       end
 
       it 'redirects to new view' do
@@ -110,13 +109,10 @@ RSpec.describe QuestionsController, type: :controller do
       let!(:question) { create(:question) }
 
       it 'question to not changed' do
-
-        expect do
-          patch :update, params: { id: question.id, question: attributes_for(:invalid_question) }
-        end.to_not change { question }
-
-        # expect(question.title).to eq('MyString')
-        # expect(question.body).to eq('MyText')
+        expect {
+          patch :update, params: { id: question.id,
+                                   question: attributes_for(:invalid_question) }
+        }.to_not change { question }
       end
 
       it 'redirects to edit view' do
@@ -130,7 +126,9 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'deletes question' do
       question
-      expect { delete :destroy, params: { id: question.id }}.to change(Question, :count).by(-1)
+      expect {
+          delete :destroy, params: { id: question.id }
+        }.to change(Question, :count).by(-1)
     end
 
     it 'redirects to questions_path' do
