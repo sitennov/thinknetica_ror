@@ -22,6 +22,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'slim-rails'
 gem 'bootstrap-sass'
 gem 'devise'
+gem 'simple_form'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -51,6 +52,7 @@ end
 group :test do
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'capybara'
+  gem 'launchy'
 end
 
 group :development do

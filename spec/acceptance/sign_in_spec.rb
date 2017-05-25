@@ -12,9 +12,9 @@ feature 'Siging in', %q{
     visit new_user_session_path
     fill_in 'Email', with: 'sitennov@mail.ru'
     fill_in 'Password', with: '123654'
-    click_on 'Sign in'
+    click_on 'Log in'
 
-    expect(page).to have_content 'Signed to Successfolly.'
+    expect(page).to have_content 'Signed in successfully.'
     expect(current_path).to eq root_path
   end
 
@@ -22,9 +22,9 @@ feature 'Siging in', %q{
     visit new_user_session_path
     fill_in 'Email', with: 'sitennov@mail.ru'
     fill_in 'Password', with: '123654'
-    click_on 'Sign in'
+    click_on 'Log in'
 
-    expect(page).to have_content 'Invalid email or password.'
+    expect(page).to have_content 'Invalid Email or password.'
     expect(current_path).to eq new_user_session_path
   end
 end

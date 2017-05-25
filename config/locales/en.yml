@@ -31,3 +31,7 @@
 
 en:
   hello: "Hello world"
+
+  questions:
+    create:
+      created: 'Your question successfully created.'

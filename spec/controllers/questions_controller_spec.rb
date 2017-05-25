@@ -115,6 +115,14 @@ RSpec.describe QuestionsController, type: :controller do
         }.to_not change { question }
       end
 
+      it "does not chenges question attributes" do
+        patch :update, params: { id: question.id, question: { title: nil, body: nil }}
+        question.reload
+
+        expect(question.title).to_not eq nil
+        expect(question.body).to_not eq nil
+      end
+
       it 'redirects to edit view' do
         patch :update, params: { id: question.id,
                                  question: attributes_for(:invalid_question) }
