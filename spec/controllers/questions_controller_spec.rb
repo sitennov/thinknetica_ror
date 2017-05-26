@@ -108,13 +108,6 @@ RSpec.describe QuestionsController, type: :controller do
     context 'invalid attributes' do
       let!(:question) { create(:question) }
 
-      it 'question to not changed' do
-        expect {
-          patch :update, params: { id: question.id,
-                                   question: attributes_for(:invalid_question) }
-        }.to_not change { question }
-      end
-
       it "does not chenges question attributes" do
         patch :update, params: { id: question.id, question: { title: nil, body: nil }}
         question.reload
