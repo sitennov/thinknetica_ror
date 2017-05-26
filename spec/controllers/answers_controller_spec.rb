@@ -6,6 +6,8 @@ RSpec.describe AnswersController, type: :controller do
   let(:invalid_answer) { create(:invalid_answer) }
 
   describe "GET #new" do
+    sign_in_user
+
     before { get :new, params: { question_id: question } }
 
     it "assigns a new answer to @answer" do
@@ -32,6 +34,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe  'POST #create' do
+    sign_in_user
+
     context 'with valid attributes' do
       it 'saves the new answer' do
         expect do
