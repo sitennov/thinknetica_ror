@@ -5,10 +5,11 @@ html
     = csrf_meta_tags
 
   body
-
-    p.notice = notice
-    p.alert = alert
-
-    = yield
+    .container
+      = render 'layouts/navbar'
+      .row
+        .col-md-12
+          = render 'shared/flash_massages'
+          = yield
 
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'

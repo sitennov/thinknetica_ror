@@ -1,1 +1,9 @@
 p= link_to 'Ask question', new_question_path
+
+table.table.table-bordered
+  - @questions.each do |question|
+    tr
+      td= question.id
+      td
+        = link_to question.title, question_path(question.id)
+      td= question.body
