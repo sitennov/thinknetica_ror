@@ -35,3 +35,15 @@ en:
   questions:
     create:
       created: 'Your question successfully created.'
+    update:
+      updated: 'Your question successfully updated'
+    destroy:
+      deleted: 'Your question successfully deleted'
+
+  answers:
+    create:
+      created: 'Your answer successfully created.'
+
+    destroy:
+      deleted: 'Your answer successfully deleted'
+      not_deleted: 'You cant delete this answer'

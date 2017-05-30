@@ -18,7 +18,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.create(answer_params)
     @answer.user = current_user
     if @answer.save
-      redirect_to question_answers_path(@question), notice: 'Your answer successfully created'
+      redirect_to question_answers_path(@question), notice: t('.created')
     else
       render :new
     end
@@ -28,9 +28,9 @@ class AnswersController < ApplicationController
     @question = @answer.question
     if current_user.id == @answer.user.id
       @answer.destroy
-      redirect_to @question, notice: 'Answer successfully deleted'
+      redirect_to @question, notice: t('.deleted')
     else
-      redirect_to @question, notice: 'You cant delete this answer'
+      redirect_to @question, notice: t('.not_deleted')
     end
   end
 
