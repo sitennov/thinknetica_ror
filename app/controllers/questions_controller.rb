@@ -37,8 +37,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path, notice: t('.deleted')
+    if current_user == @question.user
+      @question.destroy
+      redirect_to questions_path, notice: t('.deleted')
+    else
+      redirect_to root_path, notice: t('.not_deleted')
+    end
   end
 
   private
