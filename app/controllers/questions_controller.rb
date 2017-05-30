@@ -28,7 +28,7 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
-      redirect_to question_path(@question)
+      redirect_to question_path(@question), notice: t('.updated')
     else
       render :edit
     end
@@ -36,7 +36,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to questions_path
+    redirect_to questions_path, notice: t('.deleted')
   end
 
   private
