@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  let(:user) { create(:user) }
   let(:question) { create(:question) }
   let(:invalid_question) { create(:invalid_question) }
   let(:new_attributes) {{ title: 'newtitle', body: 'newbody' }}
@@ -22,10 +23,10 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #show' do
     sign_in_user
 
-    before { get :show, params: { id: question.id }}
+    before { get :show, params: { user_id: user, id: question.id }}
 
-    it 'assings the requested question to @question' do
-      expect(assigns(:question)).to eq(question)
+    it 'assigns the requested question to @question' do
+      expect(assigns(:question)).to eq question
     end
 
     it 'renders show view' do
