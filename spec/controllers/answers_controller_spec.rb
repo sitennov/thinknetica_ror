@@ -5,20 +5,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer) }
   let(:invalid_answer) { create(:invalid_answer) }
 
-  describe "GET #new" do
-    sign_in_user
-
-    before { get :new, params: { question_id: question } }
-
-    it "assigns a new answer to @answer" do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it "render new view" do
-      expect(response).to render_template :new
-    end
-  end
-
   describe "GET #index" do
     let(:answers) { create_list(:answer, 2, question: question) }
 
@@ -30,6 +16,32 @@ RSpec.describe AnswersController, type: :controller do
 
     it "render index view" do
       expect(response).to render_template :index
+    end
+  end
+
+  describe 'GET #show' do
+    before {get :show, params: {question_id: question, id: answer}}
+
+    it 'assigns the requested answer to @answer' do
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
+  end
+
+  describe "GET #new" do
+    sign_in_user
+
+    before { get :new, params: { question_id: question } }
+
+    it "assigns a new answer to @answer" do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
+    it "render new view" do
+      expect(response).to render_template :new
     end
   end
 
