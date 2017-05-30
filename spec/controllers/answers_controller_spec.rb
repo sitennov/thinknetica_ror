@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  sign_in_user
+
   let(:question) { create(:question) }
   let(:answer) { create(:answer) }
   let(:invalid_answer) { create(:invalid_answer) }
@@ -32,8 +34,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe "GET #new" do
-    sign_in_user
-
     before { get :new, params: { question_id: question } }
 
     it "assigns a new answer to @answer" do
@@ -46,8 +46,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe  'POST #create' do
-    sign_in_user
-
     context 'with valid attributes' do
       it 'saves the new answer' do
         expect do
@@ -75,6 +73,40 @@ RSpec.describe AnswersController, type: :controller do
         post :create, params: { question_id: question.id,
                                 answer: attributes_for(:invalid_answer) }
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'Delete user answer' do
+      let(:answer) { create(:answer, question: question, user: @user) }
+      before { answer }
+
+      it 'user delete answer' do
+        expect { delete :destroy, params: { question_id: question.id,
+                                            id: answer }
+        }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirect to index view' do
+        delete :destroy, params: { question_id: question.id, id: answer }
+        expect(response).to redirect_to question_path(question)
+      end
+    end
+
+    context 'User deletes answer another user' do
+      let(:answer) { create(:answer, question: question) }
+      before { answer }
+
+      it 'user delete answer' do
+        expect { delete :destroy, params: { question_id: question.id,
+                                            id: answer }
+        }.to_not change(Answer, :count)
+      end
+
+      it 'render to show view' do
+        delete :destroy, params: { question_id: question.id, id: answer.id }
+        expect(response).to render_template 'questions/show'
       end
     end
   end
