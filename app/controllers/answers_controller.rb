@@ -30,7 +30,7 @@ class AnswersController < ApplicationController
       @answer.destroy
       redirect_to @question, notice: t('.deleted')
     else
-      redirect_to @question, notice: t('.not_deleted')
+      render 'questions/show', notice: t('.not_deleted')
     end
   end
 
