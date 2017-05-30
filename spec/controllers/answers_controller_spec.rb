@@ -7,32 +7,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer) }
   let(:invalid_answer) { create(:invalid_answer) }
 
-  describe "GET #index" do
-    let(:answers) { create_list(:answer, 2, question: question) }
-
-    before { get :index, params: { question_id: question.id }}
-
-    it "array of all answers to question" do
-      expect(assigns(:answers)).to match_array(answers)
-    end
-
-    it "render index view" do
-      expect(response).to render_template :index
-    end
-  end
-
-  describe 'GET #show' do
-    before {get :show, params: {question_id: question, id: answer}}
-
-    it 'assigns the requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it 'renders show view' do
-      expect(response).to render_template :show
-    end
-  end
-
   describe "GET #new" do
     before { get :new, params: { question_id: question } }
 

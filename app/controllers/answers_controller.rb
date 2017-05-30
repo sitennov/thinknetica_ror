@@ -1,24 +1,17 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :get_question, only: [:index, :create, :new]
-  before_action :get_answer, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @answers = @question.answers
-  end
-
-  def show
-  end
+  before_action :authenticate_user!
+  before_action :get_question, only: [:create, :new]
+  before_action :get_answer, only: [:edit, :update, :destroy]
 
   def new
     @answer = @question.answers.new
   end
 
   def create
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
-      redirect_to question_answers_path(@question), notice: t('.created')
+      redirect_to question_path(@question), notice: t('.created')
     else
       render :new
     end

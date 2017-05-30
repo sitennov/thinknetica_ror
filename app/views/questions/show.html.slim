@@ -1,0 +1,18 @@
+h1= @question.title
+
+p= @question.body
+
+- @question.answers.each do |answer|
+  p= answer.body
+
+  - if user_signed_in? && current_user == answer.user
+    = link_to 'Удалить', question_answer_path(@question, answer),
+    data: { method: :delete, confirm: t('you_sure') }
+
+= simple_form_for [@question, @answer] do |f|
+  .panel.panel-default
+      .panel-body
+        form
+          .form-group
+            =f.input :body, input_html: { maxlength: 20 }
+            =f.button :submit
