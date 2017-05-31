@@ -10,6 +10,10 @@ html
       .row
         .col-md-12
           = render 'shared/flash_massages'
+          / .notice
+          /   = notice
+          / .alert
+          /   = alert
           = yield
 
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
