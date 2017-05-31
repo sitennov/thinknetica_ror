@@ -17,6 +17,7 @@ feature 'view question and answers', %q{
     expect(page).to have_content question.body
 
     page.all('.panel-body').each_with_index do |el, i|
-    expect(el).to have_content(answers[i].body)
+      expect(el).to have_content(answers[i].body)
+    end
   end
 end
