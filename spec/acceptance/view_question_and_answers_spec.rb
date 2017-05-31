@@ -10,7 +10,13 @@ feature 'view question and answers', %q{
   given(:answers) { create_list(:answer, 3, question: question) }
 
   scenario 'View question and reply to it' do
+    answers
+    visit question_path(question)
 
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
+
+    page.all('.panel-body').each_with_index do |el, i|
+    expect(el).to have_content(answers[i].body)
   end
-
 end

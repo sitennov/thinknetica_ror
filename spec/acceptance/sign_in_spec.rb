@@ -11,7 +11,7 @@ feature 'Siging in', %q{
   scenario 'Registered user try to sign in' do
     sign_in(user)
 
-    expect(page).to have_content 'Signed in successfully.'
+    expect(page).to have_content I18n.t('devise.sessions.signed_in')
     expect(current_path).to eq root_path
   end
 
@@ -21,7 +21,7 @@ feature 'Siging in', %q{
     fill_in 'Password', with: '12345'
     click_on 'Log in'
 
-    expect(page).to have_content 'Invalid email address or password.'
+    expect(page).to have_content 'Invalid Email or password'
     expect(current_path).to eq new_user_session_path
   end
 end
