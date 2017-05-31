@@ -7,29 +7,18 @@ feature 'Create answer', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question) }
-  given(:answer) { attributes_for(:answer) }
+  given!(:question) { create(:question) }
 
   scenario 'Authenticated user create the answer' do
     sign_in(user)
 
-    visit question_path(question)
+    visit questions_path
+    click_on question.title
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
 
-    fill_in 'Your Answer', with: 'My answer....'
-    click_on 'Create Answer'
-
-    # save_and_open_page
-
-    expect(page).to have_content I18n.t('answers.create.created')
-    expect(page).to have_content answer[:body]
-  end
-
-  scenario 'Non-authenticated user tries to answer the question' do
-    visit question_path(question)
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    fill_in 'Body', with: 'text text text'
+    click_on 'Create'
   end
 end
