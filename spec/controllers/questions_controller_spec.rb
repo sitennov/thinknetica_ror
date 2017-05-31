@@ -111,7 +111,8 @@ RSpec.describe QuestionsController, type: :controller do
       let!(:question) { create(:question) }
 
       it "does not chenges question attributes" do
-        patch :update, params: { id: question.id, question: { title: nil, body: nil }}
+        patch :update, params: { id: question.id,
+                                 question: { title: nil, body: nil }}
         question.reload
 
         expect(question.title).to_not eq nil
