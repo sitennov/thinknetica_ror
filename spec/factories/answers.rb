@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :answer do
-    body "MyText"
-    question { create(:question) }
+    body { Faker::Lorem.sentence }
+    question
     user
   end
 

@@ -6,15 +6,13 @@ feature 'Create question', %q{
   I want to be able to sign in
 } do
 
-  scenario 'Authenticated user create the question' do
-    User.create!(email: 'sitennov@mail.ru', password: '123654')
+  given(:user) { create(:user) }
 
-    visit new_user_session_path
-    fill_in 'Email', with: 'sitennov@mail.ru'
-    fill_in 'Password', with: '123654'
-    click_on 'Log in'
+  scenario 'Authenticated user create the question' do
+    sign_in(user)
 
     visit questions_path
+
     click_on 'Ask question'
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'text text text'
