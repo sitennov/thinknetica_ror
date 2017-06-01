@@ -9,9 +9,9 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
+    @answer.user_id = current_user.id
     if @answer.save
-      redirect_to question_path(@question), notice: t('.created')
+      redirect_to @question, notice: t('.created')
     else
       render :new
     end
@@ -19,7 +19,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @question = @answer.question
-    if current_user.id
+    if current_user
       @answer.destroy
       redirect_to @question, notice: t('.deleted')
     else
