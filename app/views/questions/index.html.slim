@@ -8,7 +8,7 @@ p= link_to 'Ask question', new_question_path
           class: 'list-group-item question-item'
         td= question.body
         td
-          - if user_signed_in? && current_user == question.user
-            = link_to 'Удалить', question_path(question),
+          - if user_signed_in? && current_user.author_of?(question)
+            = link_to 'Удалить', question,
             class: 'btn btn-default btn-ms',
             data: { method: :delete, confirm: t('you_sure') }
