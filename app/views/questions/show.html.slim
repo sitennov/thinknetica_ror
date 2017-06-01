@@ -7,7 +7,7 @@
     table.table.table-bordered
       - @question.answers.each do |answer|
         tr
-          td.col-md-9
+          td.answer-item
             = answer.body
           - if user_signed_in? && current_user.author_of?(answer)
             td.col-md-3
