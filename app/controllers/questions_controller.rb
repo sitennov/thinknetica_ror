@@ -35,7 +35,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user
+    if @question.user = current_user
       @question.destroy
       redirect_to questions_path, notice: t('.deleted')
     else
