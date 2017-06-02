@@ -1,15 +1,11 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_question, only: [:create, :new]
+  before_action :get_question, only: [:create]
   before_action :get_answer, only: [:edit, :update, :destroy]
-
-  def new
-    @answer = @question.answers.new
-  end
 
   def create
     @answer = @question.answers.new(answer_params)
-    @answer.user_id = current_user.id
+    @answer.user = current_user
     if @answer.save
       redirect_to @question, notice: t('.created')
     else
