@@ -1,14 +1,15 @@
-p= link_to 'Ask question', new_question_path
+= link_to 'Ask question', new_question_path
 
 - if @questions.any?
-  .list-group.questions-list
+  .questions-list
     - @questions.each do |question|
-      tr
-        td= link_to question.title, question_path(question.id),
-          class: 'list-group-item question-item'
-        td= question.body
-        td
-          - if user_signed_in? && current_user.author_of?(question)
-            = link_to 'Удалить', question,
-            class: 'btn btn-default btn-ms',
-            data: { method: :delete, confirm: t('you_sure') }
+
+      = link_to question.title, question_path(question.id),
+        class: 'question-item'
+
+      = question.body
+
+      - if user_signed_in? && current_user.author_of?(question)
+        = link_to 'Удалить', question,
+        class: 'btn btn-default btn-ms',
+        data: { method: :delete, confirm: t('you_sure') }
