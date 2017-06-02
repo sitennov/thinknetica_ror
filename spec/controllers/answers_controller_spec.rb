@@ -70,19 +70,10 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'User deletes answer another user' do
       let(:answer) { create(:answer, question: question) }
-      before { answer }
 
       it 'user delete answer' do
-        expect { delete :destroy, params: { id: answer,
-                                            question_id: answer.question_id }
-        }.to change(answer.user.answers, :count).by(-1)
-      end
-
-      it 'render to show view' do
-        question = answer.question
-        delete :destroy, params: { id: answer,
-                                   question_id: answer.question_id }
-        redirect_to question_path(question)
+        expect { delete :destroy, params: { question_id: question.id, id: answer }}
+        .to_not change(Answer, :count)
       end
     end
   end
