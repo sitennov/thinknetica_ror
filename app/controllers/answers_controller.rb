@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
+    @answer.user_id = current_user.id
     if @answer.save
       redirect_to @question, notice: t('.created')
     else
