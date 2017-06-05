@@ -21,7 +21,7 @@ feature 'Create answer', %q{
     fill_in 'Body', with: 'text text text'
     click_on 'Create'
 
-    within '.answer-item' do
+    within '.answer-items' do
       expect(page).to have_content 'text text text'
     end
   end
