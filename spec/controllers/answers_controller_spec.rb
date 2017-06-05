@@ -6,6 +6,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer) }
   let(:invalid_answer) { create(:invalid_answer) }
+  let(:other_user) { create(:user) }
 
   describe  'POST #create' do
     context 'with valid attributes' do
@@ -41,8 +42,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     context 'Delete user answer' do
-      let(:answer) { create(:answer, question: question, user: @user) }
-      before { answer }
+      let!(:answer) { create(:answer, question: question, user: @user) }
 
       it 'user delete answer' do
         expect { delete :destroy, params: { question_id: question.id,
@@ -57,9 +57,11 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'User deletes answer another user' do
-      let(:answer) { create(:answer, question: question) }
+      let!(:other_user) { create(:user) }
 
       it 'user delete answer' do
+        sign_in(other_user)
+
         expect { delete :destroy, params: { question_id: question.id, id: answer }}
         .to_not change(Answer, :count)
       end
