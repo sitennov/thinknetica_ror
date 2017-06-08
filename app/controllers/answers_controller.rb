@@ -15,7 +15,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @question = @answer.question
-    if @answer.user = current_user
+    if @answer.user_id = current_user.id
       @answer.destroy
       redirect_to @question, notice: t('.deleted')
     else
