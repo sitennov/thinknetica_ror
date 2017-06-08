@@ -9,7 +9,7 @@ feature 'Create answer', %q{
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  scenario 'Authenticated user create the answer' do
+  scenario 'Authenticated user create the answer with valid attributes' do
     sign_in(user)
 
     visit questions_path
@@ -24,5 +24,20 @@ feature 'Create answer', %q{
     within '.answer-items' do
       expect(page).to have_content 'text text text'
     end
+  end
+
+  scenario 'Authenticated user create the answer with invalid attributes' do
+    sign_in(user)
+
+    visit questions_path
+    click_on question.title
+
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
+
+    fill_in 'Body', with: ''
+    click_on 'Create'
+
+    expect(page).to have_content I18n.t('answers.create.not_created')
   end
 end
