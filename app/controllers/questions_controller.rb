@@ -28,6 +28,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    @question.user_id = current_user.id
     if @question.update(question_params)
       redirect_to question_path(@question), notice: t('.updated')
     else
@@ -36,7 +37,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.user = current_user
+    if @question.user_id = current_user.id
       @question.destroy
       redirect_to questions_path, notice: t('.deleted')
     else
