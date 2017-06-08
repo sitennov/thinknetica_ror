@@ -34,7 +34,7 @@ en:
 
   questions:
     create:
-      created: 'Your question successfully created.'
+      created: 'Your question successfully created'
     update:
       updated: 'Your question successfully updated'
     destroy:
@@ -43,7 +43,8 @@ en:
 
   answers:
     create:
-      created: 'Your answer successfully created.'
+      created: 'Your answer successfully created'
+      not_created: 'You did not fill in the required fields'
 
     destroy:
       deleted: 'Your answer successfully deleted'

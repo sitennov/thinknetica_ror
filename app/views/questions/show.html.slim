@@ -11,12 +11,11 @@
             = answer.body
           - if user_signed_in? && current_user.author_of?(answer)
             td.col-md-3
-              = link_to 'Delete', question_answers_path(@question, answer),
+              = link_to 'Delete', answer_path(answer),
               class: 'btn btn-default btn-ms',
               data: { method: :delete, confirm: t('you_sure') }
 
 - if user_signed_in?
-  = form_for [@question, @answer] do |f|
-    =f.label :body
-    =f.text_area :body
+  = simple_form_for [@question, @answer] do |f|
+    =f.input :body
     =f.submit 'Create'
