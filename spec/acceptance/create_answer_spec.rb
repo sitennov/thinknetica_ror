@@ -12,14 +12,12 @@ feature 'Create answer', %q{
   scenario 'Authenticated user create the answer with valid attributes' do
     sign_in(user)
 
-    visit questions_path
-    click_on question.title
-
-    expect(page).to have_content question.title
-    expect(page).to have_content question.body
+    visit question_path(question)
 
     fill_in 'Body', with: 'text text text'
     click_on 'Create'
+
+    expect(current_path).to eq question_path(question)
 
     within '.answer-items' do
       expect(page).to have_content 'text text text'
@@ -29,15 +27,12 @@ feature 'Create answer', %q{
   scenario 'Authenticated user create the answer with invalid attributes' do
     sign_in(user)
 
-    visit questions_path
-    click_on question.title
-
-    expect(page).to have_content question.title
-    expect(page).to have_content question.body
+    visit question_path(question)
 
     fill_in 'Body', with: ''
     click_on 'Create'
 
+    expect(current_path).to eq question_path(question)
     expect(page).to have_content I18n.t('answers.create.not_created')
   end
 end
