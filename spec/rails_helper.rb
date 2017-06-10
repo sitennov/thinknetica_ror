@@ -16,6 +16,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
   config.include AcceptanceHelper, type: :feature
+  config.include WaitForAjax, type: :feature
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
