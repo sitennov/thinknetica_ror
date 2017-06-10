@@ -5,12 +5,8 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    if @answer.save
-      redirect_to @question, notice: t('.created')
-    else
-      redirect_to @question, flash: {error: t('.not_created')}
-    end
+    @answer.user_id = current_user.id
+    @answer.save
   end
 
   def destroy
