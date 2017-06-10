@@ -3,6 +3,4 @@
     = answer.body
     - if user_signed_in? && current_user.author_of?(answer)
 
-      = link_to 'Delete', answer_path(answer),
-      class: 'btn btn-default btn-ms',
-      data: { method: :delete, confirm: t('you_sure') }
+      = link_to 'Delete', answer_path(answer), data: { method: :delete, confirm: t('you_sure') }, remote: true, class: 'btn btn-default btn-ms'

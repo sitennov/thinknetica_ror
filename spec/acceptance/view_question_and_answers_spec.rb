@@ -7,7 +7,7 @@ feature 'view question and answers', %q{
 } do
 
   given(:question) { create(:question) }
-  given(:answers) { create_list(:answer, 3, question: question) }
+  given(:answers) { create_list(:answer, 2, question: question) }
 
   scenario 'View question and reply to it' do
     answers
