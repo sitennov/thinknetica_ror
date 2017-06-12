@@ -13,6 +13,8 @@ class AnswersController < ApplicationController
     @question = @answer.question
     if @answer.user_id = current_user.id
       @answer.destroy
+    else
+      redirect_to @question
     end
   end
 
