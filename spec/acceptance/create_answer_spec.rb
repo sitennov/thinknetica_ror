@@ -12,8 +12,6 @@ feature 'Create answer', %q{
   scenario 'Authenticated user create the answer with valid attributes', js: true do
     sign_in(user)
 
-    sleep(2)
-    # wait_for_ajax
     visit questions_path
     click_on question.title
 
@@ -28,21 +26,4 @@ feature 'Create answer', %q{
       expect(page).to have_content 'My answer'
     end
   end
-
-  # scenario 'Authenticated user create the answer with invalid attributes', js: true do
-  #   sign_in(user)
-  #   sleep(2)
-
-  #   visit questions_path
-  #   click_on question.title
-
-  #   visit question_path(question)
-
-  #   fill_in 'Your answer', with: nil
-  #   click_on 'Create'
-
-  #   # expect(current_path).to eq question_path(question)
-  #   # expect(page).to have_content I18n.t('answers.create.not_created')
-  #   expect(page).to have_content "Body can't be blank"
-  # end
 end

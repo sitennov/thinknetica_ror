@@ -6,7 +6,7 @@ feature 'View questions', %q{
   I want to be able to view the questions
 } do
 
-  given(:questions) { create_list(:question, 5) }
+  given(:questions) { create_list(:question, 2) }
 
   scenario 'User view questions' do
     questions
