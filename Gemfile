@@ -40,7 +40,6 @@ gem 'simple_form'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'selenium-webdriver'
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
@@ -52,6 +51,8 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'faker'
+  gem 'poltergeist'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
 end
 
 group :development do
