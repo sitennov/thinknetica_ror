@@ -6,19 +6,14 @@ feature 'View questions', %q{
   I want to be able to view the questions
 } do
 
-  given(:questions) { create_list(:question, 2) }
+  given!(:questions) { create_list(:question, 2) }
 
   scenario 'User view questions' do
-    questions
-
     visit questions_path
 
-    expect(page).to have_selector('.questions-list')
-
-    page.all('.question-item').each_with_index do |el, i|
-      expect(el['href']).to have_content(question_path(questions[i]))
-      expect(el).to have_content(questions[i].title)
+    questions.each do |question|
+      expect(page).to have_content(question.title)
+      expect(page).to have_content(question.body)
     end
   end
-
 end

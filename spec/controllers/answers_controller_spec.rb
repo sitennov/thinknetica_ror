@@ -53,11 +53,6 @@ RSpec.describe AnswersController, type: :controller do
                                             id: answer }
         }.to change(Answer, :count).by(-1)
       end
-
-      it 'redirect to index view' do
-        delete :destroy, params: { question_id: question.id, id: answer }
-        expect(response).to redirect_to question_path(question)
-      end
     end
 
     context 'User deletes answer another user' do

@@ -8,13 +8,8 @@ RSpec.describe QuestionsController, type: :controller do
   let(:new_attributes) {{ title: 'newtitle', body: 'newbody' }}
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 2) }
-
+    let!(:questions) { create_list(:question, 2) }
     before { get :index }
-
-    it 'populates an array of all quetions' do
-      expect(assigns(:questions)).to match_array(questions)
-    end
 
     it 'render index view' do
       expect(response).to render_template :index
