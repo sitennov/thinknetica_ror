@@ -1,7 +1,11 @@
-p
-  = answer.body
-  - if user_signed_in? && current_user.author_of?(answer)
+.answer id = "answer-#{answer.id}"
+  - if answer.persisted?
+    = answer.body
+    - if user_signed_in? && current_user.author_of?(answer)
 
-    = link_to 'Delete', answer_path(answer),
-      data: { method: :delete, confirm: t('you_sure') },
-      remote: true, class: 'btn btn-default btn-ms'
+      = link_to 'Delete', answer, data: { method: :delete, confirm: t('you_sure') }, remote: true
+      = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+
+      = simple_form_for [answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+        = f.input :body, label: 'Answer'
+        = f.submit 'Save'
