@@ -7,4 +7,5 @@ p= @question.body
 - if user_signed_in?
   = simple_form_for [@question, @answer], remote: true do |f|
     =f.input :body, label: 'Your answer'
+    p.answer-errors.bg-danger
     =f.submit 'Create'

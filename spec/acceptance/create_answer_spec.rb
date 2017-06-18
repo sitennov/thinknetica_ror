@@ -26,4 +26,16 @@ feature 'Create answer', %q{
       expect(page).to have_content 'My answer'
     end
   end
+
+  scenario 'Authenticated user create the answer with invalid attributes', js: true do
+    sign_in(user)
+
+    visit question_path(question)
+
+    click_on 'Create'
+
+    within '.answer-errors' do
+      expect(page).to have_content 'Body can\'t be blank'
+    end
+  end
 end
