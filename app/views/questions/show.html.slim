@@ -2,7 +2,7 @@ h1= @question.title
 p= @question.body
 
 .answers
-  = render 'answers'
+  = render 'answers/answers'
 
 - if user_signed_in?
   = simple_form_for [@question, @answer], remote: true do |f|
