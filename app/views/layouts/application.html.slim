@@ -1,7 +1,7 @@
 html
   head
     title Thinknetica
-    = stylesheet_link_tag 'application', media: 'all'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = csrf_meta_tags
 
   body
@@ -12,4 +12,4 @@ html
           = render 'shared/flash_massages'
           = yield
 
-    = javascript_include_tag 'application'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
