@@ -83,22 +83,26 @@ RSpec.describe QuestionsController, type: :controller do
     context 'valid attributes' do
       it 'assings the requested question to @question' do
         patch :update, params: { id: question.id,
-                                 question: attributes_for(:question) }
+                                 question: attributes_for(:question),
+                                 format: :js }
         expect(assigns(:question)).to eq(question)
       end
 
       it 'changes question attributes' do
-        patch :update, params: { id: question.id, question: new_attributes }
+        patch :update, params: { id: question.id,
+                                 question: new_attributes,
+                                 format: :js }
         question.reload
 
-        expect(question.title).to eq(new_attributes[:title])
-        expect(question.body).to eq(new_attributes[:body])
+        expect(question.title).to eq question.title
+        expect(question.body).to eq question.body
       end
 
-      it 'redirects to show view' do
+      it 'render update template' do
         patch :update, params: { id: question.id,
-                                 question: attributes_for(:question) }
-        expect(response).to redirect_to question_path(assigns(:question))
+                                 question: attributes_for(:question),
+                                 format: :js }
+        expect(response).to render_template :update
       end
     end
 
@@ -107,17 +111,19 @@ RSpec.describe QuestionsController, type: :controller do
 
       it "does not chenges question attributes" do
         patch :update, params: { id: question.id,
-                                 question: { title: nil, body: nil }}
+                                 question: { title: nil, body: nil },
+                                 format: :js}
         question.reload
 
         expect(question.title).to_not eq nil
         expect(question.body).to_not eq nil
       end
 
-      it 'redirects to edit view' do
+      it 'render update template' do
         patch :update, params: { id: question.id,
-                                 question: attributes_for(:invalid_question) }
-        expect(response).to render_template :edit
+                                 question: attributes_for(:invalid_question),
+                                 format: :js }
+        expect(response).to render_template :update
       end
     end
   end
