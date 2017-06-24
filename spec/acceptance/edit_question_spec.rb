@@ -1,6 +1,6 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
-feature 'Answer editing', %q{
+feature 'Question editing', %q{
   In order to fix mistake
   As an author of question
   I want to be able to edit my question

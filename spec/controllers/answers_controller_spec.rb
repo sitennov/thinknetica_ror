@@ -48,17 +48,24 @@ RSpec.describe AnswersController, type: :controller do
     let(:answer) { create(:answer, question: question) }
 
     it 'assings the requested answer to @answer' do
-      patch :update, params: { id: answer, answer: attributes_for(:answer)}, format: :js
+      patch :update, params: { id: answer,
+                               answer: attributes_for(:answer)},
+                               format: :js
       expect(assigns(:answer)).to eq answer
     end
 
     it 'assigns the question' do
-      patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer) }, format: :js
+      patch :update, params: { id: answer,
+                               question_id: question,
+                               answer: attributes_for(:answer) },
+                               format: :js
       expect(assigns(:question)).to eq question
     end
 
     it 'render update template' do
-      patch :update, params: { id: answer, answer: attributes_for(:answer)}, format: :js
+      patch :update, params: { id: answer,
+                               answer: attributes_for(:answer)},
+                               format: :js
       expect(response).to render_template :update
     end
   end
@@ -69,7 +76,8 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'user delete answer' do
         expect { delete :destroy, params: { question_id: question.id,
-                                            id: answer }
+                                            id: answer },
+                                            format: :js
         }.to change(Answer, :count).by(-1)
       end
     end
@@ -80,7 +88,9 @@ RSpec.describe AnswersController, type: :controller do
       it 'user delete answer' do
         sign_in(other_user)
 
-        expect { delete :destroy, params: { question_id: question.id, id: answer }}
+        expect { delete :destroy, params: { question_id: question.id,
+                                            id: answer },
+                                            format: :js }
         .to_not change(Answer, :count)
       end
     end

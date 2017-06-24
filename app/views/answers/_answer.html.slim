@@ -3,8 +3,15 @@
     = answer.body
     - if user_signed_in? && current_user.author_of?(answer)
 
-      = link_to 'Delete', answer, data: { method: :delete, confirm: t('you_sure') }, remote: true
-      = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+      = link_to 'Delete', answer,
+        data: { method: :delete, confirm: t('you_sure') },
+        remote: true,
+        class: 'delete-answer-link'
+
+      = link_to 'Edit', '',
+        data: { answer_id: answer.id },
+        remote: true,
+        class: 'edit-answer-link'
 
       = simple_form_for [answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
         = f.input :body, label: 'Answer'
