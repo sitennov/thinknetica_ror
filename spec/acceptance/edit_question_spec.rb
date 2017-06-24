@@ -52,4 +52,13 @@ feature 'Answer editing', %q{
       end
     end
   end
+
+  scenario 'trying to edit another user\'s question' do
+    other_user = create(:user)
+    sign_in(other_user)
+    visit questions_path
+    within '.question-item' do
+      expect(page).to_not have_link 'Edit'
+    end
+  end
 end
