@@ -1,4 +1,5 @@
-.answer id = "answer-#{answer.id}" class = "#{'answer-best' if answer.best?}"
+.answer id = "answer-#{answer.id}"
+  div class = "#{'answer-best' if answer.best?}"
   - if answer.persisted?
     = answer.body
     - if user_signed_in? && current_user.author_of?(answer)
