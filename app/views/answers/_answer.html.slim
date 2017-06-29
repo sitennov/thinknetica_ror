@@ -1,12 +1,12 @@
 .answer id = "answer-#{answer.id}"
-  div class = "#{'answer-best' if answer.best?}"
+  span class = "#{'glyphicon glyphicon-star answer-best' if answer.best?}"
   - if answer.persisted?
     = answer.body
     - if user_signed_in? && current_user.author_of?(answer)
       - unless answer.best?
         = link_to 'Set best', set_best_answer_path(answer),
-          method: :patch,
           remote: true,
+          method: :patch,
           class: 'set-best-answer-link'
 
       = link_to 'Delete', answer,
