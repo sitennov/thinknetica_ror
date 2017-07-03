@@ -4,4 +4,11 @@ h1 = 'Создать вопрос'
   =f.input :title
   =f.input :body
 
+  b Attachments:
+  p
+    = f.fields_for :attachments do |a|
+      / = a.file_field :file, label: 'File'
+      =a.label :file
+      =a.file_field :file
+
   =f.submit 'Create'

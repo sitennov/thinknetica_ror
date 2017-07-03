@@ -1,6 +1,12 @@
 h1= @question.title
 p= @question.body
 
+p Attachments:
+ul.files
+  - @question.attachments.each do |a|
+    li.files__item data-file-id= a.id
+      = link_to a.file.identifier, a.file.url
+
 .answers
   = render 'answers/answers'
 
