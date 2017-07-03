@@ -4,10 +4,11 @@ p= link_to 'Back to questions', questions_path
 
 p= @question.body
 
-p Attachments:
-ul.question-files
-  - @question.attachments.each do |a|
-    li= link_to a.file.identifier, a.file.url
+- if @question.attachments.any?
+  b Attachments:
+  ul.question-files
+    - @question.attachments.each do |a|
+      li= link_to a.file.identifier, a.file.url
 
 .answers
   = render 'answers/answers'
@@ -15,5 +16,10 @@ ul.question-files
 - if user_signed_in?
   = simple_form_for [@question, @answer], remote: true do |f|
     =f.input :body, label: 'Your answer'
+
+    =f.fields_for :attachments do |a|
+      =a.label :file
+      =a.file_field :file
+
     p.answer-errors.bg-danger
     =f.submit 'Create'

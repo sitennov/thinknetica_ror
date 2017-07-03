@@ -39,6 +39,8 @@ gem 'bootstrap-sass'
 gem 'devise'
 gem 'simple_form'
 gem 'carrierwave'
+gem 'remotipart'
+gem 'cocoon'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

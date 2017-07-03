@@ -2,6 +2,11 @@
   span class = "#{'glyphicon glyphicon-star answer-best' if answer.best?}"
   - if answer.persisted?
     = answer.body
+
+    ul.answer-files
+      - answer.attachments.each do |a|
+        li= link_to a.file.identifier, a.file.url
+
     - if user_signed_in? && current_user.author_of?(answer)
       - unless answer.best?
         = link_to 'Set best', set_best_answer_path(answer),

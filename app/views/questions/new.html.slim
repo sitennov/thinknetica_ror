@@ -7,7 +7,6 @@ h1 = 'Создать вопрос'
   b Attachments:
   p
     = f.fields_for :attachments do |a|
-      / = a.file_field :file, label: 'file'
       =a.label :file
       =a.file_field :file
 
