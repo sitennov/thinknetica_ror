@@ -1,11 +1,13 @@
 h1= @question.title
+
+p= link_to 'Back to questions', questions_path
+
 p= @question.body
 
 p Attachments:
-ul.files
+ul.question-files
   - @question.attachments.each do |a|
-    li.files__item data-file-id= a.id
-      = link_to a.file.identifier, a.file.url
+    li= link_to a.file.identifier, a.file.url
 
 .answers
   = render 'answers/answers'
