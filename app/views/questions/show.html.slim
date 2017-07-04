@@ -1,19 +1,23 @@
-h1 = @question.title
+.panel.panel-default id = "question-#{@question.id}"
+  .panel-heading
+    h1 = @question.title
 
-p = link_to 'Back to questions', questions_path
+  .panel-body
+    p = link_to 'Back to questions', questions_path
 
-p = @question.body
+    p = @question.body
 
-- if @question.attachments.any?
-  b Attachments:
-  ul.question-files
-    - @question.attachments.each do |a|
-      li id="attachment-#{a.id}"
-        = link_to a.file.identifier, a.file.url
-        - if user_signed_in? && current_user.author_of?(@question)
-          = link_to 'remove attachment', attachment_path(a), method: :delete, remote: true
+    - if @question.attachments.any?
+      b Attachments:
+      ul.question-files
+        - @question.attachments.each do |a|
+          li id="attachment-#{a.id}"
+            = link_to a.file.identifier, a.file.url
+            - if user_signed_in? && current_user.author_of?(@question)
+              = link_to 'remove attachment', attachment_path(a), method: :delete, remote: true
 
 .answers
+  h2 = 'Все ответы на вопрос:'
   = render 'answers/answers'
 
 - if user_signed_in?
