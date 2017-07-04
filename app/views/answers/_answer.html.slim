@@ -1,11 +1,18 @@
 .answer id = "answer-#{answer.id}"
   span class = "#{'glyphicon glyphicon-star answer-best' if answer.best?}"
   - if answer.persisted?
-    = answer.body
+    p = answer.body
 
-    ul.answer-files
-      - answer.attachments.each do |a|
-        li= link_to a.file.identifier, a.file.url
+    - if answer.attachments.any?
+      b Attachments:
+      ul.answer-files
+        - answer.attachments.each do |a|
+          li id="attachment-#{a.id}"
+            = link_to a.file.identifier, a.file.url
+            - if user_signed_in? && current_user.author_of?(answer)
+              = link_to 'remove attachment', attachment_path(a),
+                method: :delete,
+                remote: true
 
     - if user_signed_in? && current_user.author_of?(answer)
       - unless answer.best?
