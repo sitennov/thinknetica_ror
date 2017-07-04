@@ -1,13 +1,13 @@
 h1 = 'Создать вопрос'
 
 = simple_form_for @question do |f|
-  =f.input :title
-  =f.input :body
+  = f.input :title
+  = f.input :body
 
   b Attachments:
-  p
-    = f.fields_for :attachments do |a|
-      =a.label :file
-      =a.file_field :file
-
+  #attachments
+    = f.simple_fields_for :attachments do |attachment|
+      = render 'attachment_fields', f: attachment
+    .links
+      = link_to_add_association 'add attachment', f, :attachments
   =f.submit 'Create'
