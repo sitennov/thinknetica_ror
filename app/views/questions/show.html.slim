@@ -1,8 +1,8 @@
-h1= @question.title
+h1 = @question.title
 
-p= link_to 'Back to questions', questions_path
+p = link_to 'Back to questions', questions_path
 
-p= @question.body
+p = @question.body
 
 - if @question.attachments.any?
   b Attachments:
@@ -15,11 +15,13 @@ p= @question.body
 
 - if user_signed_in?
   = simple_form_for [@question, @answer], remote: true do |f|
-    =f.input :body, label: 'Your answer'
+    = f.input :body, label: 'Your answer'
 
-    =f.fields_for :attachments do |a|
-      =a.label :file
-      =a.file_field :file
+    #attachments
+      = f.simple_fields_for :attachments do |attachment|
+        = render 'attachment_fields', f: attachment
+      .links
+        = link_to_add_association 'add attachment', f, :attachments
 
     p.answer-errors.bg-danger
-    =f.submit 'Create'
+    = f.submit 'Create'
