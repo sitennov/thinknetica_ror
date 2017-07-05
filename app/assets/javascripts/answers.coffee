@@ -9,6 +9,13 @@ ready = ->
     answer_id = $(this).data('answerId')
     $('form#edit-answer-' + answer_id).show()
 
-$(document).ready(ready)
-$(document).on('page:load', ready)
-$(document).on('page:update', ready)
+  $('form.new_answer').bind 'ajax:success', (e, data, status, xhr) ->
+    answer = $.parseJSON(xhr.responseText)
+    $('.answers').append('<p>' + answer.body + '</p>')
+    $('.answer_body #answer_body').val('')
+  .bind 'ajax:error', (e, xhr, status, error) ->
+    errors = $.parseJSON(xhr.responseText)
+    $.each errors, (index, value) ->
+      $('.answer-errors').append(value)
+
+$(document).on('turbolinks:load', ready);
