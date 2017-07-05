@@ -4,9 +4,15 @@ class AnswersController < ApplicationController
   before_action :get_answer, only: [:update, :destroy, :set_best]
 
   def create
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.build(answer_params)
     @answer.user_id = current_user.id
-    @answer.save
+    respond_to do |format|
+      if @answer.save
+        format.json { render json: @answer }
+      else
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update
