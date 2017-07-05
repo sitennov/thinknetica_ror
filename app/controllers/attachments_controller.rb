@@ -3,7 +3,7 @@ class AttachmentsController < ApplicationController
   before_action :get_attachment
 
   def destroy
-    if current_user.id == @attachment.attachable.user_id
+    if current_user.author_of?(@attachment.attachable)
       @attachment.destroy
     else
       flash[:notice] = 'error delete attachment'
