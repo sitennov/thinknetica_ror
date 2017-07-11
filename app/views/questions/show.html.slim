@@ -5,6 +5,8 @@
   .panel-body
     p = link_to 'Back to questions', questions_path
 
+    = render 'questions/vote', item: @question
+
     p = @question.body
 
     - if @question.attachments.any?
