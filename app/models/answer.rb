@@ -1,4 +1,6 @@
 class Answer < ApplicationRecord
+  include Votable
+
   validates :body, presence: true
 
   belongs_to :user

@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  include Votable
+
   validates :title, :body, presence: true
 
   default_scope { order(:id) }
