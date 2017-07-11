@@ -1,0 +1,6 @@
+.vote id = "#{item.id}"
+  .btn-group
+    = link_to 'up vote', '', title: 'up vote', class: 'btn btn-default glyphicon glyphicon-arrow-up', type: 'button'
+    = link_to 'down vote', '', title: 'down vote', class: 'btn btn-default glyphicon glyphicon-arrow-down', type: 'button'
+
+  p.vote-count = '0'
