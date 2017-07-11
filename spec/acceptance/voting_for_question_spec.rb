@@ -15,9 +15,8 @@ feature 'Voting for the question', %q{
   end
 
   scenario 'User votes for the question up' do
-    expect(find('.vote-count')).to have_content '0'
-
     within "#question-#{question.id}" do
+      expect(find('.vote-count')).to have_content '0'
       click_on 'up vote'
       expect(find('.vote-count')).to have_content '1'
     end

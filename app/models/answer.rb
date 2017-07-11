@@ -5,9 +5,13 @@ class Answer < ApplicationRecord
   belongs_to :question
 
   has_many :attachments, as: :attachable, dependent: :destroy
-  default_scope { order(best: :desc, created_at: :asc) }
+  has_many :votes, as: :votable, dependent: :destroy
 
-  accepts_nested_attributes_for :attachments, reject_if: :all_blank
+  accepts_nested_attributes_for :attachments,
+                                reject_if: :all_blank,
+                                allow_destroy: true
+
+  default_scope { order(best: :desc, created_at: :asc) }
 
   def set_best!
     Answer.transaction do
