@@ -1,6 +1,6 @@
 .vote id = "#{item.id}"
   .btn-group
-    = link_to 'up vote', '', title: 'up vote', class: 'btn btn-default glyphicon glyphicon-arrow-up', type: 'button'
-    = link_to 'down vote', '', title: 'down vote', class: 'btn btn-default glyphicon glyphicon-arrow-down', type: 'button'
+    - unless current_user&.author_of?(item)
+      = link_to 'up vote', polymorphic_path(item, action: :vote_up), class: 'vote-link btn btn-default glyphicon glyphicon-arrow-up', method: :put, remote: true
 
-  p.vote-count = '0'
+  p.vote-count = item.rating
