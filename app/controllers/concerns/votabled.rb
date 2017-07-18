@@ -2,7 +2,7 @@ module Votabled
   extend ActiveSupport::Concern
 
   included do
-    before_action :load_votable, only: [:vote_up, :vote_down]
+    before_action :load_votable, only: [:vote_up, :vote_down, :vote_reset]
   end
 
   def vote_up
@@ -18,6 +18,16 @@ module Votabled
   def vote_down
     if user_not_author
       @votable.vote_down(current_user)
+
+      respond_to do |format|
+        format.json { render json: {class: 'question', id: @votable.id, answer_id: nil, rating: @votable.rating}.to_json }
+      end
+    end
+  end
+
+  def vote_reset
+    if user_not_author
+      @votable.vote_reset(current_user)
 
       respond_to do |format|
         format.json { render json: {class: 'question', id: @votable.id, answer_id: nil, rating: @votable.rating}.to_json }

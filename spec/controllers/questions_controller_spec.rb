@@ -226,5 +226,14 @@ RSpec.describe QuestionsController, type: :controller do
         expect(json_parse['rating']).to eq(-1)
       end
     end
+
+    context 'DELETE #vote_reset' do
+      it 'is voting up to question and reset his vote' do
+        post :vote_up, params: { id: question, format: :json }
+        delete :vote_reset, params: { id: question, format: :json }
+
+        expect(question.rating).to eq 0
+      end
+    end
   end
 end

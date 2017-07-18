@@ -40,4 +40,17 @@ feature 'Voting for the question', %q{
       expect(page).to have_content '0'
     end
   end
+
+  scenario 'User cancels his vote', js:true do
+    sign_in(user2)
+    visit question_path(question)
+
+    within '.votes' do
+      expect(page).to have_content '0'
+      click_on '+'
+      expect(page).to have_content '1'
+      click_on 'vote reset'
+      expect(page).to have_content '0'
+    end
+  end
 end
