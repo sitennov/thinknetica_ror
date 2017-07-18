@@ -8,30 +8,21 @@ module Votabled
   def vote_up
     if user_not_author
       @votable.vote_up(current_user)
-
-      respond_to do |format|
-        format.json { render json: {class: 'question', id: @votable.id, answer_id: nil, rating: @votable.rating}.to_json }
-      end
+      respond_to_json
     end
   end
 
   def vote_down
     if user_not_author
       @votable.vote_down(current_user)
-
-      respond_to do |format|
-        format.json { render json: {class: 'question', id: @votable.id, answer_id: nil, rating: @votable.rating}.to_json }
-      end
+      respond_to_json
     end
   end
 
   def vote_reset
     if user_not_author
       @votable.vote_reset(current_user)
-
-      respond_to do |format|
-        format.json { render json: {class: 'question', id: @votable.id, answer_id: nil, rating: @votable.rating}.to_json }
-      end
+      respond_to_json
     end
   end
 
@@ -47,5 +38,17 @@ module Votabled
 
   def user_not_author
     !current_user.author_of?(@votable)
+  end
+
+  def respond_to_json
+    if @votable.class == Answer
+      respond_to do |format|
+        format.json { render json: {class: 'answer', question_id: @votable.question.id, id: @votable.id, rating: @votable.rating}.to_json }
+      end
+    elsif @votable.class == Question
+      respond_to do |format|
+        format.json { render json: {class: 'question', id: @votable.id, answer_id: nil, rating: @votable.rating}.to_json }
+      end
+    end
   end
 end
