@@ -16,7 +16,9 @@
           li id="attachment-#{a.id}"
             = link_to a.file.identifier, a.file.url
             - if user_signed_in? && current_user.author_of?(@question)
-              = link_to 'remove attachment', attachment_path(a), method: :delete, remote: true
+              = link_to 'remove attachment', attachment_path(a),
+                                             method: :delete,
+                                             remote: true
 
 .answers
   h2 = 'Все ответы на вопрос:'
@@ -24,13 +26,4 @@
 
 - if user_signed_in?
   p.answer-errors.bg-danger
-  = simple_form_for [@question, @answer], remote: true, data: { type: :json } do |f|
-    = f.input :body, label: 'Your answer'
-
-    #attachments
-      = f.simple_fields_for :attachments do |attachment|
-        = render 'attachment_fields', f: attachment
-      .links
-        = link_to_add_association 'add attachment', f, :attachments
-
-    = f.submit 'Create'
+  = render 'form_answer'
