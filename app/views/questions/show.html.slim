@@ -5,7 +5,7 @@
   .panel-body
     p = link_to 'Back to questions', questions_path
 
-    = render 'questions/vote', item: @question
+    = render 'vote', item: @question
 
     p = @question.body
 
@@ -19,7 +19,6 @@
               = link_to 'remove attachment', attachment_path(a),
                                              method: :delete,
                                              remote: true
-
 .answers
   h2 = 'Все ответы на вопрос:'
   = render 'answers/answers'

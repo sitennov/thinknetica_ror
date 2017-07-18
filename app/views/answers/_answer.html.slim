@@ -3,7 +3,7 @@
   - if answer.persisted?
     .panel-body
       = answer.body
-      .votes-answers '+ 0 -'
+      = render 'answers/vote', item: answer
 
     - if answer.attachments.any?
       b Attachments:
