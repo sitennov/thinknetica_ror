@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
+  config.include WaitForAjax, type: :feature
+
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end

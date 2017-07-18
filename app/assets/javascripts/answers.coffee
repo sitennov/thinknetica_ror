@@ -18,4 +18,6 @@ ready = ->
     $.each errors, (index, value) ->
       $('.answer-errors').append(value)
 
-$(document).on('turbolinks:load', ready);
+$(document).ready(ready)
+$(document).on('page:load', ready)
+$(document).on('page:update', ready)
