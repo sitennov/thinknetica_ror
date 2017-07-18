@@ -6,21 +6,38 @@ feature 'Voting for the question', %q{
   I want to be able to vote for the question
 } do
 
-  given(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:user) { create(:user) }
+  given!(:user2) { create(:user) }
+  given!(:question) { create(:question, user: user) }
 
-  background do
-    sign_in(user)
+  scenario 'User votes for the question up', js:true do
+    sign_in(user2)
     visit question_path(question)
-  end
 
-  scenario 'User votes for the question up' do
-    within "#question-#{question.id}" do
-      expect(find('.vote-count')).to have_content '0'
-      click_on 'up vote'
-      expect(find('.vote-count')).to have_content '1'
+    within '.votes' do
+      click_on '+'
+      expect(page).to have_content '1'
     end
   end
 
-  scenario 'User votes for the question down'
+  scenario 'Nobody can vote for question more than 1 time', js:true do
+    sign_in(user2)
+    visit question_path(question)
+
+    within('.votes') do
+      click_on '+'
+      click_on '+'
+      expect(page).to have_content '1'
+    end
+  end
+
+  scenario 'User votes for the question down', js:true do
+    sign_in(user2)
+    visit question_path(question)
+
+    within '.votes' do
+      click_on '-'
+      expect(page).to have_content '0'
+    end
+  end
 end

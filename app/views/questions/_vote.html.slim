@@ -1,6 +1,16 @@
-.vote id = "#{item.id}"
+.votes id = "#{item.id}"
   .btn-group
     - unless current_user&.author_of?(item)
-      = link_to 'up vote', polymorphic_path(item, action: :vote_up), class: 'vote-link btn btn-default glyphicon glyphicon-arrow-up', method: :put, remote: true
+      = link_to '+', vote_up_question_path(@question),
+        remote: true,
+        data: { type: :json },
+        method: :post,
+        class: 'btn btn-success'
+
+      = link_to '-', vote_down_question_path(@question),
+        remote: true,
+        data: { type: :json },
+        method: :post,
+        class: 'btn btn-danger'
 
   p.vote-count = item.rating
