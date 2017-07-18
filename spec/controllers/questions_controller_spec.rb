@@ -156,7 +156,8 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'not the author' do
       it 'does not delete a question belonging to another user' do
-        expect { delete :destroy, params: { id: question } }.not_to change(Question, :count)
+        expect { delete :destroy, params: { id: question }
+        }.not_to change(Question, :count)
       end
     end
   end
@@ -176,7 +177,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'POST #vote_down' do
       it 'trying to vote down his question' do
-        expect { post :vote_down, params: { id: question, format: :json }}.to change(Vote, :count).by(0)
+        expect { post :vote_down, params: { id: question,
+                                            format: :json }
+        }.to change(Vote, :count).by(0)
       end
     end
   end
@@ -210,7 +213,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'POST #vote_down' do
       it 'assigns the requested question to @votable' do
-        post :vote_up, params: { id: question, question: attributes_for(:question), format: :json }
+        post :vote_up, params: { id: question,
+                                 question: attributes_for(:question),
+                                 format: :json }
         expect(assigns(:votable)).to eq question
       end
 
@@ -221,7 +226,9 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'returns JSON parse' do
-        post :vote_down, params: { id: question, question: attributes_for(:question), format: :json }
+        post :vote_down, params: { id: question,
+                                   question: attributes_for(:question),
+                                   format: :json }
         json_parse = JSON.parse(response.body)
         expect(json_parse['rating']).to eq(-1)
       end
