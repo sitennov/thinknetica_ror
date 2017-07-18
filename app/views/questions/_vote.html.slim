@@ -1,19 +1,19 @@
 .votes id = "#{item.id}"
   .btn-group
     - unless current_user&.author_of?(item)
-      = link_to '+', vote_up_question_path(@question),
+      = link_to '+', polymorphic_path(item, action: :vote_up),
         remote: true,
         data: { type: :json },
         method: :post,
         class: 'btn btn-success'
 
-      = link_to 'vote reset', vote_reset_question_path(@question),
+      = link_to 'vote reset', polymorphic_path(item, action: :vote_reset),
         remote: true,
         data: { type: :json },
         method: :delete,
         class: 'btn btn-default'
 
-      = link_to '-', vote_down_question_path(@question),
+      = link_to '-', polymorphic_path(item, action: :vote_down),
         remote: true,
         data: { type: :json },
         method: :post,

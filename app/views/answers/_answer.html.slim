@@ -1,7 +1,9 @@
-.answer id = "answer-#{answer.id}"
+.panel.panel-default.answer id = "answer-#{answer.id}"
   span class = "#{'glyphicon glyphicon-star answer-best' if answer.best?}"
   - if answer.persisted?
-    p = answer.body
+    .panel-body
+      = answer.body
+      .votes-answers '+ 0 -'
 
     - if answer.attachments.any?
       b Attachments:
