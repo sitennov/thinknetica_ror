@@ -90,8 +90,79 @@ RSpec.describe AnswersController, type: :controller do
 
         expect { delete :destroy, params: { question_id: question.id,
                                             id: answer },
-                                            format: :js }
-        .to_not change(Answer, :count)
+                                            format: :js
+        }.to_not change(Answer, :count)
+      end
+    end
+  end
+
+  # VOTES
+
+  describe 'Author can not vote for his answer' do
+    sign_in_user
+    let!(:answer) { create(:answer, question: question, user: @user) }
+
+    context 'POST #vote_up' do
+      it 'trying to vote up his answer' do
+        expect { post :vote_up, params: { id: answer,
+                                          question_id: question.id,
+                                          format: :json }
+        }.to change(Vote, :count).by(0)
+      end
+    end
+
+    context 'POST #vote_down' do
+      it 'trying to vote down his answer' do
+        expect { post :vote_down, params: { id: answer,
+                                            question_id: question.id,
+                                            format: :json }
+        }.to change(Vote, :count).by(0)
+      end
+    end
+  end
+
+  describe 'User is voting for answer of somebody' do
+    sign_in_user
+    let!(:answer) { create(:answer, question: question) }
+
+    context 'POST #vote_up' do
+      it 'assigns the requested answer to @votable' do
+        post :vote_up, params: { id: answer,
+                                 question_id: question.id,
+                                 answer: attributes_for(:answer),
+                                 format: :json }
+        expect(assigns(:votable)).to eq answer
+      end
+
+      it 'is voting up to answer (can not do it more than 1 time)' do
+        post :vote_up, params: { id: answer,
+                                 question_id: question.id,
+                                 format: :json}
+        post :vote_up, params: { id: answer,
+                                 question_id: question.id,
+                                 format: :json}
+        expect(answer.rating).to eq 1
+      end
+
+      it 'returns JSON parse' do
+        post :vote_up, params: { id: answer,
+                                 question_id: question.id,
+                                 answer: attributes_for(:answer),
+                                 format: :json }
+        json_parse = JSON.parse(response.body)
+        expect(json_parse['rating']).to eq(1)
+      end
+    end
+
+    context 'DELETE #vote_reset' do
+      it 'is voting up to answer and reset his vote' do
+        post :vote_up, params: { id: answer,
+                                 question_id: question.id,
+                                 format: :json }
+        delete :vote_reset, params: { id: answer,
+                                      question_id: question.id,
+                                      format: :json }
+        expect(answer.rating).to eq 0
       end
     end
   end
