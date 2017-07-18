@@ -6,14 +6,9 @@ feature 'Voting for the question', %q{
   I want to be able to vote for the question
 } do
 
-  given!(:user) { create(:user) }
-  given!(:user2) { create(:user) }
+  given(:user) { create(:user) }
+  given(:user2) { create(:user) }
   given!(:question) { create(:question, user: user) }
-
-  background do
-    sign_in(user2)
-    visit question_path(question)
-  end
 
   scenario 'Author of question can not vote for it', js:true do
     sign_in(user)
@@ -27,6 +22,9 @@ feature 'Voting for the question', %q{
   end
 
   scenario 'User votes for the question up', js:true do
+    sign_in(user2)
+    visit question_path(question)
+
     within '.votes' do
       click_on '+'
       expect(page).to have_content 1
@@ -34,6 +32,9 @@ feature 'Voting for the question', %q{
   end
 
   scenario 'Nobody can vote for question more than 1 time', js:true do
+    sign_in(user2)
+    visit question_path(question)
+
     within('.votes') do
       click_on '+'
       click_on '+'
@@ -42,6 +43,9 @@ feature 'Voting for the question', %q{
   end
 
   scenario 'User votes for the question down', js:true do
+    sign_in(user2)
+    visit question_path(question)
+
     within '.votes' do
       click_on '-'
       expect(page).to have_content 0
@@ -49,6 +53,9 @@ feature 'Voting for the question', %q{
   end
 
   scenario 'User cancels his vote', js:true do
+    sign_in(user2)
+    visit question_path(question)
+
     within '.votes' do
       expect(page).to have_content 0
       click_on '+'
