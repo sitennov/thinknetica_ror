@@ -20,10 +20,8 @@ module Votabled
   end
 
   def vote_reset
-    if user_not_author
-      @votable.vote_reset(current_user)
-      respond_to_json
-    end
+    @votable.vote_reset(current_user)
+    respond_to_json
   end
 
   private
