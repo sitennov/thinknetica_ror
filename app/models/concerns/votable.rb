@@ -24,9 +24,7 @@ module Votable
   end
 
   def vote_reset(current_user)
-    if !current_user.author_of?(self)
-      votes.where(user_id: current_user.id).delete_all
-    end
+    votes.where(user_id: current_user.id).delete_all
   end
 
   def voted?(current_user)
