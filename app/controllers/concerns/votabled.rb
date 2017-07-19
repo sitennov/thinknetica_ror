@@ -2,7 +2,9 @@ module Votabled
   extend ActiveSupport::Concern
 
   included do
-    before_action :load_votable, only: [:vote_up, :vote_down, :vote_reset]
+    before_action :load_votable, only: [:vote_up,
+                                        :vote_down,
+                                        :vote_reset]
   end
 
   def vote_up
@@ -42,8 +44,7 @@ module Votabled
     respond_to do |format|
       format.json { render json: { class: @votable.class.name.underscore,
                                    id: @votable.id,
-                                   rating: @votable.rating
-      }.to_json }
+                                   rating: @votable.rating }}
     end
   end
 end
