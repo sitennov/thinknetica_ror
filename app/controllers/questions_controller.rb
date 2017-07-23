@@ -34,10 +34,11 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @questions = Question.all
     if current_user.id == @question.user_id
-      @question.update(question_params)
-      redirect_to question_path(@question), notice: t('.edited')
+      if @question.update(question_params)
+        flash[:notice] = t('.edited')
+        redirect_to @question
+      end
     end
   end
 

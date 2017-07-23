@@ -10,26 +10,25 @@ feature 'Question editing', %q{
   given!(:question) { create(:question, user: user) }
 
   scenario 'Unauthenticated user trying to edit question' do
-    visit questions_path
+    visit question_path(question)
     expect(page).to_not have_link 'Edit'
   end
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js:true do
     before do
       sign_in(user)
-      visit questions_path
+      visit question_path(question)
     end
 
     scenario 'sees link to Edit' do
-      within '.question-item' do
+      within "#question-#{question.id}" do
         expect(page).to have_link 'Edit'
       end
     end
 
-    scenario 'trying to edit his question with valid attributes', js: true do
-      click_on 'Edit'
-
-      within '.question-item' do
+    scenario 'trying to edit his question with valid attributes' do
+      within "#question-#{question.id}" do
+        click_on 'Edit'
         fill_in 'Question title', with: 'Test question111'
         fill_in 'Question body', with: 'text text text111'
         click_on 'Save'
@@ -40,10 +39,9 @@ feature 'Question editing', %q{
       end
     end
 
-    scenario 'trying to edit his question with invalid attributes', js: true do
-      click_on 'Edit'
-
-      within '.question-item' do
+    scenario 'trying to edit his question with invalid attributes' do
+      within "#question-#{question.id}" do
+        click_on 'Edit'
         fill_in 'Question title', with: ''
         fill_in 'Question body', with: ''
         click_on 'Save'
@@ -57,7 +55,8 @@ feature 'Question editing', %q{
     other_user = create(:user)
     sign_in(other_user)
     visit questions_path
-    within '.question-item' do
+
+    within "#question-#{question.id}" do
       expect(page).to_not have_link 'Edit'
     end
   end
