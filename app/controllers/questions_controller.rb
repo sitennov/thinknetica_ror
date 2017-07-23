@@ -37,6 +37,7 @@ class QuestionsController < ApplicationController
     @questions = Question.all
     if current_user.id == @question.user_id
       @question.update(question_params)
+      redirect_to question_path(@question), notice: t('.edited')
     end
   end
 

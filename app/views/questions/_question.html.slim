@@ -1,22 +1,5 @@
 .question-item id = "question-#{question.id}"
-  / - if question.persisted?
-  /   p
-  /     = link_to question.title, question_path(question.id),
-  /     class: 'question-title-link'
-
-  /   - if user_signed_in? && current_user.author_of?(question)
-  /     = link_to 'Delete', question,
-  /                         data: { method: :delete, confirm: t('you_sure') },
-  /                         remote: true
-  /     = link_to 'Edit', '', class: 'edit-question-link',
-  /                           data: { question_id: question.id }
-
-  /     = simple_form_for [question], remote: true, html: { id: "edit-question-#{question.id}"} do |f|
-  /       = f.input :title, label: 'Question title'
-  /       = f.input :body, label: 'Question body'
-  /       p.question-errors.bg-danger
-  /       = f.submit 'Save'
-
-
-
-  = link_to question.title, question_path(question.id)
+  - if question.persisted?
+    p
+      = link_to question.title, question_path(question.id),
+      class: 'question-title-link'
