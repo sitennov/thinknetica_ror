@@ -42,6 +42,9 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
 
+gem 'skim'
+gem 'gon'
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.5'
