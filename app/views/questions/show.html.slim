@@ -4,7 +4,7 @@
 
   .panel-body
     p = link_to 'Back to questions', questions_path
-
+    p = render 'form_question'
     = render 'vote', item: @question
 
     p = @question.body
@@ -25,4 +25,4 @@
 
 - if user_signed_in?
   p.answer-errors.bg-danger
-  = render 'form_answer'
+  = render 'answers/form_answer'
