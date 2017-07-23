@@ -1,8 +1,9 @@
 require 'rails_helper'
 
+Capybara.server = :puma
+
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
-
   config.include WaitForAjax, type: :feature
 
   config.before(:suite) do

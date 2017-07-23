@@ -13,7 +13,6 @@ feature 'View questions', %q{
 
     questions.each do |question|
       expect(page).to have_content(question.title)
-      expect(page).to have_content(question.body)
     end
   end
 end

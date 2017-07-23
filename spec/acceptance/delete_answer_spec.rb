@@ -13,9 +13,11 @@ feature 'Answer deleting', %q{
   scenario 'User tries to delete his answer', js: true do
     sign_in(user)
     visit question_path(question)
-    click_on 'Delete'
 
-    expect(page).to_not have_content answer.body
+    within "#answer-#{answer.id}" do
+      click_on 'Delete'
+      expect(page).to_not have_content answer.body
+    end
   end
 
   scenario 'User tries to delete another user\'s answer', js: true do
@@ -23,6 +25,8 @@ feature 'Answer deleting', %q{
     sign_in(other_user)
     visit question_path question
 
-    expect(page).to_not have_content 'Delete'
+    within "#answer-#{answer.id}" do
+      expect(page).to_not have_content 'Delete'
+    end
   end
 end
