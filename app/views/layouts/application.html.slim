@@ -10,6 +10,7 @@ html lang="en"
     = csrf_meta_tags
     = action_cable_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
   body
     .container
@@ -18,5 +19,3 @@ html lang="en"
         .col-md-12
           = render 'shared/flash_massages'
           = yield
-
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'

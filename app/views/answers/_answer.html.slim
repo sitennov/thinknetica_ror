@@ -1,6 +1,6 @@
-.panel.panel-default.answer id = "answer-#{answer.id}"
-  span class = "#{'glyphicon glyphicon-star answer-best' if answer.best?}"
-  - if answer.persisted?
+- if answer.persisted?
+  .panel.panel-default.answer id = "answer-#{answer.id}"
+    span class = "#{'glyphicon glyphicon-star answer-best' if answer.best?}"
     .panel-body
       = answer.body
       = render 'questions/vote', item: answer

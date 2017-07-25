@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
   before_action :get_question, only: [:create]
   before_action :get_answer, only: [:update, :destroy, :set_best]
 
+  # after_action :publish_answer, only: [:create]
+
   def create
     @answer = @question.answers.create(answer_params)
     @answer.user_id = current_user.id
@@ -47,4 +49,15 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
   end
+
+  # def publish_answer
+  #   return if @answer.errors.any?
+  #   ActionCable.server.broadcast(
+  #     "questions/#{@question.id}/answers",
+  #     ApplicationController.render(
+  #       partial: 'answers/answer',
+  #       locals: { answer: @answer }
+  #     )
+  #   )
+  # end
 end
