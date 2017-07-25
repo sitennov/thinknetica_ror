@@ -7,7 +7,7 @@ feature 'Voting for the question', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:user2) { create(:user) }
+  given!(:user2) { create(:user) }
   given!(:question) { create(:question, user: user) }
 
   scenario 'Author of question can not vote for it', js:true do
