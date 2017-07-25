@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-
-  root 'questions#index'
   devise_for :users
 
   concern :votable do
@@ -19,8 +17,8 @@ Rails.application.routes.draw do
     end
     put :vote_up, on: :member
   end
-
   resources :attachments, only: [:destroy]
 
   mount ActionCable.server => '/cable'
+  root 'questions#index'
 end

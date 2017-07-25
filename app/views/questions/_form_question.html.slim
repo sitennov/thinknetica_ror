@@ -2,6 +2,7 @@
   = link_to 'Delete', @question,
                       data: { method: :delete, confirm: t('you_sure') },
                       remote: true
+
   = link_to 'Edit', '', class: 'edit-question-link',
                         data: { question_id: @question.id }
 

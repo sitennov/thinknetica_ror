@@ -14,7 +14,7 @@ feature 'Add files to answer', %q{
     visit question_path(question)
   end
 
-  scenario 'User adds a file to the answer', js: true do
+  scenario 'User adds a file to the answer', js:true do
     fill_in 'Your answer', with: 'My answer'
 
     click_on 'add attachment'
