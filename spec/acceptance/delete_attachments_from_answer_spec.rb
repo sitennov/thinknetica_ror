@@ -18,7 +18,7 @@ feature 'Delete files from answer', %q{
 
   scenario 'User deletes his attachments files', js: true do
     within "li#attachment-#{attachment.id}" do
-      click_on 'remove attachment'
+      click_on 'Remove attachment'
 
       expect("#answer-#{answer.id}").to_not have_link "attachment-#{attachment.id}"
     end
