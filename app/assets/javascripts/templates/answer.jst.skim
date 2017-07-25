@@ -1,0 +1,22 @@
+.panel.panel-default.answer id="answer-#{@id}"
+  span class = "#{'glyphicon glyphicon-star answer-best' if answer.best?}"
+    .panel-body
+      = @body
+      .votes id = "#{@id}"
+        .btn-group
+          - unless gon.user_id && @user_id == gon.user_id
+            a.btn.btn-success data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/vote_up" +
+            a.btn.btn-default data-type="json" data-remote="true" rel="nofollow" data-method="delete" href="/answers/#{@id}/vote_reset" vote reset
+            a.btn.btn-danger data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/vote_down" -
+        p.vote-count = @rating
+
+    b Attachments:
+    ul.answer-files
+      - $.each @attachments, (index, a)=>
+        li id="attachment-#{a.id}"
+          a href="#{a.url}" = a.identifier
+          - if gon.user_id && @user_id == gon.user_id
+            a.delete-attachment-link data-remote="true" rel="nofollow" data-method="delete" href="/attachments/#{a.id}" Remove attachment
+
+    - if gon.user_id == gon.question_user_id
+      a.set-best-answer-link data-remote="true" rel="nofollow" data-method="patch" href="/answers/#{@id}/set_best" Set best
