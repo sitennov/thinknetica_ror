@@ -1,22 +1,9 @@
 ready = ->
-  $ ->
-    answersList = $(".answers")
-
-    $('.edit-answer-link').click (e) ->
-      e.preventDefault();
-      $(this).hide();
-      answer_id = $(this).data('answerId')
-      $('form#edit-answer-' + answer_id).show();
-
-    App.cable.subscriptions.create('AnswersChannel', {
-      connected: ->
-        console.log 'Connected!'
-        @perform 'follow'
-      ,
-
-      received: (data) ->
-        answersList.append data
-    })
+  $('.edit-answer-link').click (e) ->
+    e.preventDefault();
+    $(this).hide();
+    answer_id = $(this).data('answerId')
+    $('form#edit-answer-' + answer_id).show();
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

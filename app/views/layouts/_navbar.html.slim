@@ -1,5 +1,9 @@
 .row
   .col-md-12
+    - if user_signed_in?
+      p
+        | User email:
+        = current_user.email
     nav.navbar.navbar-default
       .container-fluid
         .navbar-header
@@ -11,8 +15,10 @@
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
-              li= link_to 'Sign out', destroy_user_session_path,
-                data: { method: :delete, confirm: "Are you sure?" },
-                class: 'signout'
+              li
+                = link_to 'Sign out', destroy_user_session_path,
+                  data: { method: :delete, confirm: "Are you sure?" },
+                  class: 'signout'
             - else
-              li= link_to 'Войти', new_user_session_path
+              li
+                = link_to 'Войти', new_user_session_path
