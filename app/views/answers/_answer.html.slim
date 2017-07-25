@@ -1,12 +1,12 @@
 - if answer.persisted?
   .panel.panel-default.answer id = "answer-#{answer.id}"
-    span class = "#{'glyphicon glyphicon-star answer-best' if answer.best?}"
+    - if answer.best?
+      span.glyphicon.glyphicon-star.answer-best
     .panel-body
       = answer.body
       = render 'questions/vote', item: answer
 
     - if answer.attachments.any?
-      b Attachments:
       ul.answer-files
         - answer.attachments.each do |a|
           li id="attachment-#{a.id}"
