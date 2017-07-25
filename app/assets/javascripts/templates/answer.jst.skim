@@ -1,16 +1,14 @@
 .panel.panel-default.answer id="answer-#{@id}"
-  span class = "#{'glyphicon glyphicon-star answer-best' if answer.best?}"
-    .panel-body
-      = @body
-      .votes id = "#{@id}"
-        .btn-group
-          - unless gon.user_id && @user_id == gon.user_id
-            a.btn.btn-success data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/vote_up" +
-            a.btn.btn-default data-type="json" data-remote="true" rel="nofollow" data-method="delete" href="/answers/#{@id}/vote_reset" vote reset
-            a.btn.btn-danger data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/vote_down" -
-        p.vote-count = @rating
+  .panel-body
+    = @body
+    .votes id = "#{@id}"
+      .btn-group
+        - unless gon.user_id && @user_id == gon.user_id
+          a.btn.btn-success data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/vote_up" +
+          a.btn.btn-default data-type="json" data-remote="true" rel="nofollow" data-method="delete" href="/answers/#{@id}/vote_reset" vote reset
+          a.btn.btn-danger data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@id}/vote_down" -
+      p.vote-count = @rating
 
-    b Attachments:
     ul.answer-files
       - $.each @attachments, (index, a)=>
         li id="attachment-#{a.id}"
@@ -20,3 +18,13 @@
 
     - if gon.user_id == gon.question_user_id
       a.set-best-answer-link data-remote="true" rel="nofollow" data-method="patch" href="/answers/#{@id}/set_best" Set best
+      a.delete-answer-link data-method="delete" data-remote="true" href="/answers/#{@id}" Delete
+      a.edit-answer-link data-remote="true" data-answer-id="#{@id}" href="" Edit
+
+      form.simple_form.edit_answer id="edit-answer-#{@id}" novalidate="novalidate" action="/answers/#{@id}" data-remote="true" method="post" accepts-charset="UTF-8"
+        input name="utf8" type="hidden" value="✓"
+        input type="hidden" name="_method" value="patch"
+        div.form-group.text.required.answer_body
+          label.control-label.text.required for="answer_body_#{@id}" Answer
+          textarea.form-control.text.required name="answer[body]" id="answer_body_#{@id}" =@body
+        input type="submit" name="commit" value="Save" data-disable-with="Save"
