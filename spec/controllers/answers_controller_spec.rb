@@ -166,4 +166,26 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  # COMMENTS
+
+  describe 'POST #comment' do
+    sign_in_user
+    let!(:answer) { create(:answer) }
+    let(:comment) { attributes_for(:comment) }
+
+    context 'with valid attributes' do
+      it 'added commet' do
+        expect { post :comment, params: { id: answer, comment: comment }, format: :js }
+          .to change(Comment, :count).by(1)
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'did not add a comment' do
+        expect { post :comment, params: { id: answer, comment: attributes_for(:invalid_comment) }, format: :js }
+          .to_not change(Comment, :count)
+      end
+    end
+  end
 end
