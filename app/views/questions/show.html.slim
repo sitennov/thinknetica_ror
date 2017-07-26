@@ -1,4 +1,4 @@
-.panel.panel-default id = "question-#{@question.id}"
+.panel.panel-default.question id = "question-#{@question.id}"
   .panel-heading
     h1 = @question.title
 
@@ -19,6 +19,9 @@
               = link_to 'remove attachment', attachment_path(a),
                                              method: :delete,
                                              remote: true
+
+    = render 'questions/comment', item: @question, url: comment_question_path(@question)
+
 .answers
   h2 = 'Все ответы на вопрос:'
   = render 'answers/answers'

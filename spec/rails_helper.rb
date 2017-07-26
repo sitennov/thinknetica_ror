@@ -4,8 +4,6 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'capybara/poltergeist'
 
-# require 'factory_girl_rails'
-
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 abort("The Rails environment is running in production mode!") if Rails.env.production?
