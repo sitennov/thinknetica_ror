@@ -251,14 +251,24 @@ RSpec.describe QuestionsController, type: :controller do
     let!(:question) { create(:question) }
     let(:comment) { attributes_for(:comment) }
 
-    it 'added commet' do
-      expect { post :comment, params: { id: question.id, comment: comment }, format: :js }
-        .to change(Comment, :count).by(1)
+    context 'with valid attributes' do
+      it 'added comment' do
+        expect { post :comment, params: { id: question.id, comment: comment }, format: :js }
+          .to change(Comment, :count).by(1)
+      end
+
+      it 'render view association show' do
+        post :comment, params: { id: question.id, comment: comment }, format: :js
+        expect(response).to render_template 'comment'
+      end
     end
 
-    it 'render view association show' do
-      post :comment, params: { id: question.id, comment: comment }, format: :js
-      expect(response).to render_template 'comment'
+    context 'with invalid attributes' do
+      it 'did not add a comment' do
+        expect { post :comment, params: { id: question.id, comment: attributes_for(:invalid_comment) }, format: :js }
+          .to_not change(Comment, :count)
+      end
     end
   end
 end
+

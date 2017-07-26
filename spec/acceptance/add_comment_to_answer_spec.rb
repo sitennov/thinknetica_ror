@@ -8,9 +8,16 @@ feature 'Comments for the answer', %q{
 
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
+  given!(:answer) { create(:answer, question: question, user: user) }
 
   describe 'Non-authenticated user', js:true do
-    scenario 'Non-authenticated user tries to add comment'
+    scenario 'Non-authenticated user tries to add comment' do
+      visit question_path(question)
+
+      within "#answer-#{answer.id}" do
+        expect(page).to_not have_content 'Leave a comment'
+      end
+    end
   end
 
   describe 'Authenticated user', js:true do
@@ -19,9 +26,31 @@ feature 'Comments for the answer', %q{
       visit question_path(question)
     end
 
-    scenario 'Sees link for add comment'
-    scenario 'Leaves a valid comment'
-    scenario 'Leaves a invalid comment'
+    scenario 'Sees link for add comment' do
+      within "#answer-#{answer.id}" do
+        expect(page).to have_link 'Leave a comment'
+      end
+    end
+
+    scenario 'Leaves a valid comment' do
+      within "#answer-#{answer.id}" do
+        click_on 'Leave a comment'
+        expect(page).to have_content 'Your comment'
+        fill_in 'Your comment', with: 'My comment'
+        click_on 'Add comment'
+        expect(page).to have_content 'My comment'
+      end
+    end
+
+    scenario 'Leaves a invalid comment' do
+      within "#answer-#{answer.id}" do
+        click_on 'Leave a comment'
+        expect(page).to have_content 'Your comment'
+        fill_in 'Your comment', with: ''
+        click_on 'Add comment'
+        expect(page).to have_content ''
+      end
+    end
   end
 
   context 'multiple sessions'

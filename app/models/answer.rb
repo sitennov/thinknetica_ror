@@ -1,5 +1,6 @@
 class Answer < ApplicationRecord
   include Votable
+  include Commentable
 
   validates :body, presence: true
 
@@ -7,7 +8,6 @@ class Answer < ApplicationRecord
   belongs_to :question
 
   has_many :attachments, as: :attachable, dependent: :destroy
-  has_many :votes, as: :votable, dependent: :destroy
 
   accepts_nested_attributes_for :attachments,
                                 reject_if: :all_blank,
