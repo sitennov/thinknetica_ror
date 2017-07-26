@@ -1,0 +1,14 @@
+- if item.comments.any?
+  b Comments:
+.comments-list
+  - item.comments.each do |comment|
+    p = comment.body
+
+- if user_signed_in?
+  p = link_to 'Leave a comment', '', class: 'btn btn-primary add-comment'
+
+p.comment_errors.bg-danger
+= simple_form_for([item, item.comments.build], url: url, remote: true) do |f|
+  .form-group
+    = f.input :body, label: 'Your comment'
+  = f.submit 'Add comment'

@@ -236,11 +236,29 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'DELETE #vote_reset' do
       it 'is voting up to question and reset his vote' do
-        post :vote_up, params: { id: question, format: :json }
-        delete :vote_reset, params: { id: question, format: :json }
+        post :vote_up, params: { id: question.id, format: :json }
+        delete :vote_reset, params: { id: question.id, format: :json }
 
         expect(question.rating).to eq 0
       end
+    end
+  end
+
+  # COMMENTS
+
+  describe 'POST #comment' do
+    sign_in_user
+    let!(:question) { create(:question) }
+    let(:comment) { attributes_for(:comment) }
+
+    it 'added commet' do
+      expect { post :comment, params: { id: question.id, comment: comment }, format: :js }
+        .to change(Comment, :count).by(1)
+    end
+
+    it 'render view association show' do
+      post :comment, params: { id: question.id, comment: comment }, format: :js
+      expect(response).to render_template 'comment'
     end
   end
 end

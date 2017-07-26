@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   include Votabled
+  include Commentabled
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :get_question, only: [:show, :edit, :update, :destroy]
@@ -13,7 +14,6 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new
     @answer.attachments.build
-
     gon.question_id = @question.id
     gon.question_user_id = @question.user_id
   end

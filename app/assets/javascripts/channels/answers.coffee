@@ -1,4 +1,5 @@
-answers_channel = ->
+$ ->
+  $answers = $('.answers')
   if gon.question_id
     App.answers = App.cable.subscriptions.create "AnswersChannel",
       connected: ->
@@ -6,11 +7,7 @@ answers_channel = ->
 
       received: (data) ->
         answer = $.parseJSON(data)
-        $('.answers').append  JST["templates/answer"](answer)
+        $answers.append JST["templates/answer"](answer)
   else
     if (App.answers)
       App.cable.subscriptions.remove(App.answers)
-
-$(document).on('turbolinks:load', answers_channel)
-$(document).on('page:load', answers_channel)
-$(document).on('page:update', answers_channel)

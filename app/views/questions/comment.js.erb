@@ -1,0 +1,10 @@
+<% if @comment.errors.present? %>
+  <% @comment.errors.full_messages.each do |message| %>
+    $('.question .comment_errors').html('<%= j message %>');
+  <% end %>
+<% else %>
+  $('textarea#comment_body').val('');
+  $('.question .add-comment').show();
+  $('.question .new_comment').hide();
+  $('.question .comments-list').append('<p><%= j @comment.body %></p>');
+<% end %>
