@@ -3,6 +3,7 @@ module Commentabled
 
   included do
     before_action :load_commentable, only: :comment
+    after_action :publish_comment, only: :comment
   end
 
   def comment
@@ -24,5 +25,23 @@ module Commentabled
 
   def comment_params
     params.require(:comment).permit(:body)
+  end
+
+  def publish_comment
+    return if @comment.errors.any?
+    renderer = ApplicationController.renderer.new
+    renderer.instance_variable_set(:@env, {"HTTP_HOST"=>"localhost:3000",
+                                           "HTTPS"=>"off",
+                                           "REQUEST_METHOD"=>"GET",
+                                           "SCRIPT_NAME"=>"",
+                                           "warden" => warden})
+    ActionCable.server.broadcast(
+      "questions/#{@question_id}/comments",
+      ApplicationController.render(
+        partial: 'questions/comment',
+        formats: :json,
+        locals: { comment: @comment }
+      )
+    )
   end
 end

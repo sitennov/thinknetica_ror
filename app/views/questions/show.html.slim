@@ -20,7 +20,8 @@
                                              method: :delete,
                                              remote: true
 
-    = render 'questions/comment', item: @question, url: comment_question_path(@question)
+    .question-comments
+      = render 'questions/comment', item: @question, url: comment_question_path(@question)
 
 .answers
   h2 = 'Все ответы на вопрос:'

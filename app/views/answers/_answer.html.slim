@@ -16,8 +16,8 @@
                 method: :delete,
                 remote: true,
                 class: 'delete-attachment-link'
-
-    = render 'questions/comment', item: answer, url: comment_answer_path(answer)
+    .answer-comments
+      = render 'questions/comment', item: answer, url: comment_answer_path(answer)
 
     - if user_signed_in? && current_user.author_of?(answer)
       - unless answer.best?

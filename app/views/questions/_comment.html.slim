@@ -2,7 +2,8 @@
   b Comments:
 .comments-list
   - item.comments.each do |comment|
-    p = comment.body
+    p id = "comment_#{comment.id}"
+      = comment.body
 
 - if user_signed_in?
   p = link_to 'Leave a comment', '', class: 'btn btn-primary add-comment'
