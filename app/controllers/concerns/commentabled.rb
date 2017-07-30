@@ -29,12 +29,6 @@ module Commentabled
 
   def publish_comment
     return if @comment.errors.any?
-    renderer = ApplicationController.renderer.new
-    renderer.instance_variable_set(:@env, {"HTTP_HOST"=>"localhost:3000",
-                                           "HTTPS"=>"off",
-                                           "REQUEST_METHOD"=>"GET",
-                                           "SCRIPT_NAME"=>"",
-                                           "warden" => warden})
     ActionCable.server.broadcast(
       "questions/#{@question_id}/comments",
       ApplicationController.render(
