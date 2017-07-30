@@ -20,37 +20,68 @@ feature 'Comments for the question', %q{
   end
 
   describe 'Authenticated user', js:true do
-    before do
-      sign_in(user)
-      visit question_path(question)
-    end
+    context 'add comment' do
+      before do
+        sign_in(user)
+        visit question_path(question)
+      end
 
-    scenario 'Sees link for add comment' do
-      within "#question-#{question.id}" do
-        expect(page).to have_link 'Leave a comment'
+      scenario 'Sees link for add comment' do
+        within "#question-#{question.id}" do
+          expect(page).to have_link 'Leave a comment'
+        end
+      end
+
+      scenario 'Leaves a valid comment' do
+        within "#question-#{question.id}" do
+          click_on 'Leave a comment'
+          expect(page).to have_content 'Your comment'
+          fill_in 'Your comment', with: 'My comment'
+          click_on 'Add comment'
+          expect(page).to have_content 'My comment'
+        end
+      end
+
+      scenario 'Leaves a invalid comment' do
+        within "#question-#{question.id}" do
+          click_on 'Leave a comment'
+          expect(page).to have_content 'Your comment'
+          fill_in 'Your comment', with: ''
+          click_on 'Add comment'
+          expect(page).to have_content "Body can't be blank"
+        end
       end
     end
 
-    scenario 'Leaves a valid comment' do
-      within "#question-#{question.id}" do
-        click_on 'Leave a comment'
-        expect(page).to have_content 'Your comment'
-        fill_in 'Your comment', with: 'My comment'
-        click_on 'Add comment'
-        expect(page).to have_content 'My comment'
-      end
-    end
+    context 'mulitple sessions' do
+      scenario "question appears on another user's page", js:true do
+        Capybara.using_session('user') do
+          sign_in(user)
+          visit question_path(question)
+        end
 
-    scenario 'Leaves a invalid comment' do
-      within "#question-#{question.id}" do
-        click_on 'Leave a comment'
-        expect(page).to have_content 'Your comment'
-        fill_in 'Your comment', with: ''
-        click_on 'Add comment'
-        expect(page).to have_content "Body can't be blank"
+        Capybara.using_session('guest') do
+          visit question_path(question)
+        end
+
+        Capybara.using_session('user') do
+          within "#question-#{question.id}" do
+            click_on 'Leave a comment'
+            fill_in 'Your comment', with: 'comment comment comment'
+            click_on 'Add comment'
+          end
+
+          within "#question-#{question.id} .comments-list" do
+            expect(page).to have_content 'comment comment comment'
+          end
+        end
+
+        Capybara.using_session('guest') do
+          within "#question-#{question.id} .comments-list" do
+            expect(page).to have_content 'comment comment comment'
+          end
+        end
       end
     end
   end
-
-  context 'multiple sessions'
 end

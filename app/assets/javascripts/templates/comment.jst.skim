@@ -1,0 +1,2 @@
+p id="comment_#{@id}"
+  = @body
