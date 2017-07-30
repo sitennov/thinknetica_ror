@@ -6,4 +6,4 @@ $ ->
   .on 'ajax:error', '.votes', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
-      $("#{element}-#{item.id} .vote-count").append(value)
+      $(element + '-' + item.id + '.vote-count').append(value)
