@@ -6,7 +6,7 @@ h1 = 'Создать вопрос'
 
   b Attachments:
   #attachments
-    = f.simple_fields_for :attachments do |attachment|
+    = f.simple_fields_for :attachments, @question.attachments.build do |attachment|
       = render 'attachment_fields', f: attachment
     .links
       = link_to_add_association 'add attachment', f, :attachments

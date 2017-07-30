@@ -4,53 +4,42 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :get_question, only: [:show, :edit, :update, :destroy]
-
+  before_action :build_answer, only: [:show]
   after_action :publish_question, only: [:create]
 
+  respond_to :js, only: [:show, :update]
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.new
-    @answer.attachments.build
     gon.question_id = @question.id
     gon.question_user_id = @question.user_id
+    respond_with(@question)
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def edit
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user = current_user
-    if @question.save
-      redirect_to question_path(@question), notice: t('.created')
-    else
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
-    if current_user.id == @question.user_id
-      if @question.update(question_params)
-        flash[:notice] = t('.edited')
-        redirect_to @question
-      end
+    if @question.user_id = current_user.id
+      @question.update(question_params)
+      respond_with(@question)
     end
   end
 
   def destroy
     if @question.user_id = current_user.id
-      @question.destroy
-      redirect_to questions_path, notice: t('.deleted')
-    else
-      redirect_to root_path, notice: t('.not_deleted')
+      respond_with(@question.destroy!)
     end
   end
 
@@ -58,6 +47,10 @@ class QuestionsController < ApplicationController
 
   def get_question
     @question = Question.find(params[:id])
+  end
+
+  def build_answer
+    @answer = @question.answers.build
   end
 
   def question_params

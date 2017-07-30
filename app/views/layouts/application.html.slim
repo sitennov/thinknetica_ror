@@ -17,5 +17,6 @@ html lang="en"
       = render 'layouts/navbar'
       .row
         .col-md-12
-          = render 'shared/flash_massages'
+          #flash_massages
+            = render 'shared/flash_massages'
           = yield
