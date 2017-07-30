@@ -7,9 +7,7 @@ module Commentabled
   end
 
   def comment
-    @comment = @association.comments.new(comment_params)
-    @comment.user_id = current_user.id
-    @comment.save
+    @comment = @association.comments.create(comment_params.merge(user_id: current_user.id))
   end
 
   private
