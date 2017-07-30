@@ -7,7 +7,7 @@ feature 'Question editing', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question, user: user) }
+  given(:question) { create(:question, user: user) }
 
   scenario 'Unauthenticated user trying to edit question' do
     visit question_path(question)
@@ -33,6 +33,7 @@ feature 'Question editing', %q{
         fill_in 'Question body', with: 'text text text111'
         click_on 'Save'
 
+        visit question_path(question)
         expect(page).to_not have_content question.title
         expect(page).to have_content 'Test question111'
         expect(page).to have_content 'text text text111'
@@ -44,17 +45,29 @@ feature 'Question editing', %q{
         click_on 'Edit'
         fill_in 'Question title', with: ''
         fill_in 'Question body', with: ''
+
         click_on 'Save'
 
         expect(page).to have_content 'Body can\'t be blank'
       end
+    end
+
+    scenario 'tries to edit his question with invalid body' do
+      within '.question' do
+        click_on 'Edit'
+      end
+      fill_in 'Question title', with: ''
+      fill_in 'Question body', with: ''
+      click_on 'Save'
+
+      expect(page).to have_content "Body can't be blank"
     end
   end
 
   scenario 'trying to edit another user\'s question' do
     other_user = create(:user)
     sign_in(other_user)
-    visit questions_path
+    visit question_path(question)
 
     within "#question-#{question.id}" do
       expect(page).to_not have_link 'Edit'
