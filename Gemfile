@@ -42,7 +42,8 @@ gem 'simple_form'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
-
+gem 'omniauth'
+gem 'omniauth-facebook'
 gem 'skim'
 gem 'gon'
 
