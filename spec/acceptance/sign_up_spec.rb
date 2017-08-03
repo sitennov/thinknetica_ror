@@ -16,7 +16,6 @@ feature 'Siging up', %q{
     fill_in 'Password confirmation', with: user[:password_confirmation]
     click_on 'Sign up'
 
-    expect(page).to have_content I18n.t('devise.registrations.signed_up')
     expect(current_path).to eq root_path
   end
 end

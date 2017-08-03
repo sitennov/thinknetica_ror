@@ -2,6 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+require 'capybara/email/rspec'
 require 'capybara/poltergeist'
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
@@ -15,6 +16,7 @@ RSpec.configure do |config|
 
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include OmniauthMacros
   config.extend ControllerMacros, type: :controller
   config.include AcceptanceHelper, type: :feature
 
@@ -22,6 +24,8 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
+
+  OmniAuth.config.test_mode = true
 
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|

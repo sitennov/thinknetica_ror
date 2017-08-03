@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 Capybara.server = :puma
+Capybara.server_port = 4000
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false

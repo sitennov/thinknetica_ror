@@ -27,3 +27,5 @@ config/database.yml
 
 # Ignore uploaded files
 /public/uploads
+
+config/secrets.yml
