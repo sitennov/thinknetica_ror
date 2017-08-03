@@ -44,6 +44,7 @@ gem 'remotipart'
 gem 'cocoon'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 gem 'skim'
 gem 'gon'
 
@@ -53,11 +54,13 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
   gem 'database_cleaner'
+  gem 'letter_opener'
 end
 
 group :test do
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'capybara'
+  gem 'capybara-email'
   gem 'launchy'
   gem 'faker'
   gem 'poltergeist'
