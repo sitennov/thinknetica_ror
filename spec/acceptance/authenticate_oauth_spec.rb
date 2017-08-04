@@ -14,7 +14,18 @@ feature 'Authenticate using oauth', %q{
       visit new_user_session_path
       click_on 'Sign in with Facebook'
 
-      expect(page).to have_content('Successfully authenticated from Facebook account')
+      expect(page).to have_content('You have to confirm your email address before continuing.')
+
+      message = ActionMailer::Base.deliveries.last.body.raw_source
+      doc = Nokogiri::HTML.parse(message)
+      url = doc.css("a").map { |link| link[:href] }.first
+      visit url
+
+      expect(page).to have_content('Your email address has been successfully confirmed')
+
+      click_on 'Sign in with Facebook'
+
+      expect(page).to have_content('Successfully authenticated from Facebook account.')
     end
 
     scenario 'Registred user using Facebook try again to authenticate using Facebook' do
