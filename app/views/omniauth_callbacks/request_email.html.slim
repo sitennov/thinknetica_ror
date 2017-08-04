@@ -2,7 +2,5 @@
   .form-group
     = label_tag 'auth_info_email', 'Email'
     = email_field 'auth[info]', :email, class: 'form-control'
-    = hidden_field_tag 'auth[provider]', auth.provider
-    = hidden_field_tag 'auth[uid]', auth.uid
 
   = submit_tag 'Submit'
