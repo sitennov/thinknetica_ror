@@ -1,18 +1,7 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  before_action :sign_in_provider, except: :sign_up
+  before_action :sign_in_provider
 
   def sign_up
-    email = auth.info[:email]
-    user = User.find_by(email: email)
-
-    unless user
-      password = Devise.friendly_token[0, 20]
-      user = User.create!(email: email, password: password, password_confirmation: password)
-      flash[:notice] = 'You have to confirm your email address before continuing.'
-    end
-
-    user.create_authorization(auth)
-    redirect_to questions_path
   end
 
   def facebook
