@@ -21,11 +21,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
                         kind: auth.provider.capitalize) if is_navigational_format?
     else
       flash[:notice] = 'Email is required to compete sign up'
+      session[:provider] = auth.provider
+      session[:uid] = auth.uid
       render 'omniauth_callbacks/request_email', locals: { auth: auth }
     end
   end
 
   def auth
-    request.env['omniauth.auth'] || OmniAuth::AuthHash.new(params[:auth])
+    request.env['omniauth.auth'] || OmniAuth::AuthHash.new(params[:auth]).merge( { provider: session[:provider], uid: session[:uid] } )
   end
 end
