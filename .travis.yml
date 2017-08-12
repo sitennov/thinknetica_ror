@@ -1,6 +1,5 @@
 dist: trusty
 sudo: required
-language: ruby
 
 addons:
   apt:
@@ -14,8 +13,8 @@ addons:
     repo_token: 4e3cb2a696643d430b41c961c4f77f46e01499ad
 
 before_script:
-  - psql -c 'create database prog_test' -U postgres
-  - cp config/database.yml.travis config/database.yml
+  - psql -c 'create database travis_ci_test' -U postgres
+  - cp config/database.travis.yml config/database.yml
 
 services:
   - postgresql
