@@ -10,17 +10,13 @@ module Votable
   end
 
   def vote_up(current_user)
-    if !current_user.author_of?(self)
-      vote_reset(current_user)
-      votes.create!(value: 1, user_id: current_user.id)
-    end
+    vote_reset(current_user)
+    votes.create!(value: 1, user_id: current_user.id)
   end
 
   def vote_down(current_user)
-    if !current_user.author_of?(self)
-      vote_reset(current_user)
-      votes.create!(value: -1, user_id: current_user.id)
-    end
+    vote_reset(current_user)
+    votes.create!(value: -1, user_id: current_user.id)
   end
 
   def vote_reset(current_user)

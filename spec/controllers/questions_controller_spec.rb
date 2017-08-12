@@ -56,7 +56,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'with valid attributes' do
       it 'saves the new question' do
         expect { post :create, params: { question: attributes_for(:question) }
-        }.to change(@user.questions, :count).by(1)
+          }.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -69,7 +69,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'not saves the new question' do
         expect {
           post :create, params: { question: attributes_for(:invalid_question) }
-        }.to_not change(Question, :count)
+          }.to_not change(Question, :count)
       end
 
       it 'redirects to new view' do
@@ -80,61 +80,74 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    context 'valid attributes' do
-      it 'assings the requested question to @question' do
-        patch :update, params: { id: question.id,
-                                 question: attributes_for(:question),
-                                 format: :js }
-        expect(assigns(:question)).to eq(question)
+    sign_in_user
+
+    context 'author' do
+      let(:question) { create(:question, user: @user) }
+
+      context 'valid attributes' do
+        it 'assings the requested question to @question' do
+          patch :update, params: { id: question.id,
+                                   question: attributes_for(:question),
+                                   format: :js }
+          expect(assigns(:question)).to eq(question)
+        end
+
+        it 'changes question attributes' do
+          patch :update, params: { id: question.id,
+                                   question: new_attributes,
+                                   format: :js }
+          question.reload
+          expect(question.title).to eq question.title
+          expect(question.body).to eq question.body
+        end
+
+        it 'render update template' do
+          patch :update, params: { id: question.id,
+                                   question: attributes_for(:question) },
+                                   format: :js
+          expect(response).to render_template :update
+        end
       end
 
-      it 'changes question attributes' do
-        patch :update, params: { id: question.id,
-                                 question: new_attributes,
-                                 format: :js }
-        question.reload
+      context 'invalid attributes' do
+        let(:question_clone) { question.clone }
+        before do
+          question_clone
+        end
 
-        expect(question.title).to eq question.title
-        expect(question.body).to eq question.body
-      end
+        it "does not chenges question attributes" do
+          patch :update, params: { id: question.id,
+                                   question: attributes_for(:invalid_question) },
+                                   format: :js
+          question.reload
+          expect(question.title).to_not eq nil
+          expect(question.body).to_not eq nil
+        end
 
-      it 'render update template' do
-        patch :update, params: { id: question.id,
-                                 question: attributes_for(:question),
-                                 format: :js }
-        expect(response).to render_template :update
+        it 'render update template' do
+          patch :update, params: { id: question.id,
+                                   question: attributes_for(:invalid_question) },
+                                   format: :js
+          expect(response).to render_template :update
+        end
       end
     end
 
-    context 'invalid attributes' do
-      let!(:question) { create(:question) }
+    context 'Non author' do
 
-      it "does not chenges question attributes" do
-        patch :update, params: { id: question.id,
-                                 question: { title: nil, body: nil },
-                                 format: :js}
-        question.reload
-
-        expect(question.title).to_not eq nil
-        expect(question.body).to_not eq nil
-      end
-
-      it 'render update template' do
-        patch :update, params: { id: question.id,
-                                 question: attributes_for(:invalid_question),
-                                 format: :js }
-        expect(response).to render_template :update
-      end
     end
   end
 
   describe 'DELETE #destroy' do
-    context 'author' do
-      it 'author deletes question' do
-        sign_in(question.user)
+    sign_in_user
 
-        expect {
-            delete :destroy, params: { id: question.id }
+    context 'author' do
+      let(:question) { create(:question, user: @user) }
+      before { question }
+
+      it 'author deletes question' do
+        expect { delete :destroy, params: { id: question.id }
           }.to change(question.user.questions, :count).by(-1)
       end
 
@@ -147,9 +160,16 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'not the author' do
+      before { question }
+
       it 'does not delete a question belonging to another user' do
         expect { delete :destroy, params: { id: question }
-        }.not_to change(Question, :count)
+          }.to_not change(Question, :count)
+      end
+
+      it 'redirect to root_path' do
+        delete :destroy, params: { id: question.id }
+        expect(response).to redirect_to root_path
       end
     end
   end
@@ -245,8 +265,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'added comment' do
-        expect { post :comment, params: { id: question.id, comment: comment }, format: :js }
-          .to change(Comment, :count).by(1)
+        expect { post :comment, params: { id: question.id,
+                                          comment: comment },
+                                          format: :js
+        }.to change(Comment, :count).by(1)
       end
 
       it 'render view association show' do
@@ -257,10 +279,11 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'did not add a comment' do
-        expect { post :comment, params: { id: question.id, comment: attributes_for(:invalid_comment) }, format: :js }
-          .to_not change(Comment, :count)
+        expect { post :comment, params: { id: question.id,
+                                          comment: attributes_for(:invalid_comment) },
+                                          format: :js
+          }.to_not change(Comment, :count)
       end
     end
   end
 end
-

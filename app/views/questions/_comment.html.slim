@@ -5,7 +5,7 @@
     p id = "comment_#{comment.id}"
       = comment.body
 
-- if user_signed_in?
+- if can?(:create, Comment)
   p = link_to 'Leave a comment', '', class: 'btn btn-primary add-comment'
 
 p.comment_errors.bg-danger
