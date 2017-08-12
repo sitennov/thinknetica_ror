@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
   before_action :build_answer, only: [:show]
   after_action :publish_question, only: [:create]
 
+  authorize_resource
+
   respond_to :js, only: [:show, :update]
 
   def index
@@ -31,16 +33,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.user_id = current_user.id
-      @question.update(question_params)
-      respond_with(@question)
-    end
+    @question.update(question_params)
+    respond_with(@question)
   end
 
   def destroy
-    if @question.user_id = current_user.id
-      respond_with(@question.destroy!)
-    end
+    respond_with(@question.destroy!)
   end
 
   private
@@ -54,7 +52,11 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, attachments_attributes: [:id, :file, :_destroy])
+    params.require(:question).permit(:title,
+                                     :body,
+                                     attachments_attributes: [:id,
+                                                              :file,
+                                                              :_destroy])
   end
 
   def publish_question

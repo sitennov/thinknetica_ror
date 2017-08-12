@@ -4,6 +4,8 @@ module Commentabled
   included do
     before_action :load_commentable, only: :comment
     after_action :publish_comment, only: :comment
+
+    authorize_resource
   end
 
   def comment

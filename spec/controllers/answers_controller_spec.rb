@@ -45,7 +45,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let(:answer) { create(:answer, question: question) }
+    let(:answer) { create(:answer, question: question, user: @user) }
 
     it 'assings the requested answer to @answer' do
       patch :update, params: { id: answer,
@@ -88,10 +88,10 @@ RSpec.describe AnswersController, type: :controller do
       it 'user delete answer' do
         sign_in(other_user)
 
-        expect { delete :destroy, params: { question_id: question.id,
-                                            id: answer },
-                                            format: :js
-        }.to_not change(Answer, :count)
+        delete :destroy, params: { question_id: question.id,
+                                   id: answer },
+                                   format: :js
+        expect(response).to be_forbidden
       end
     end
   end
@@ -176,14 +176,18 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'added commet' do
-        expect { post :comment, params: { id: answer, comment: comment }, format: :js }
+        expect { post :comment, params: { id: answer,
+                                          comment: comment },
+                                          format: :js }
           .to change(Comment, :count).by(1)
       end
     end
 
     context 'with invalid attributes' do
       it 'did not add a comment' do
-        expect { post :comment, params: { id: answer, comment: attributes_for(:invalid_comment) }, format: :js }
+        expect { post :comment, params: { id: answer,
+                                          comment: attributes_for(:invalid_comment) },
+                                          format: :js }
           .to_not change(Comment, :count)
       end
     end
