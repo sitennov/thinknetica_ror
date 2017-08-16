@@ -26,7 +26,7 @@ feature 'Question editing', %q{
       end
     end
 
-    xscenario 'trying to edit his question with valid attributes' do
+    scenario 'trying to edit his question with valid attributes' do
       within "#question-#{question.id}" do
         click_on 'Edit'
         fill_in 'Question title', with: 'Test question111'
