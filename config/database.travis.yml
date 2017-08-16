@@ -1,8 +1,4 @@
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
 test:
-  <<: *default
   database: travis_ci_test
+  adapter: postgresql
+  username: postgres
