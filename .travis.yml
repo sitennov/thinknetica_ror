@@ -1,13 +1,19 @@
 language: ruby
-dist: trusty
-sudo: required
-
 rvm:
   - 1.29.1
 
-env:
-  - DB=postgresql
+services:
+  - postgresql
+
 cache: bundler
+
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+
+script:
+  - 'bundle exec rake db:migrate RAILS_ENV=test'
+  - 'bundle exec rake spec'
 
 addons:
   apt:
@@ -19,16 +25,3 @@ addons:
 
   code_climate:
     repo_token: 4e3cb2a696643d430b41c961c4f77f46e01499ad
-
-before_script:
-  - psql -c 'create database travis_ci_test' -U postgres
-  - cp config/database.travis.yml config/database.yml
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3
-
-services:
-  - postgresql
-
-after_success:
-  - bundle exec codeclimate-test-reporter
