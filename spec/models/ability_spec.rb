@@ -10,6 +10,7 @@ describe Ability do
     it { should be_able_to :read, Answer }
     it { should be_able_to :read, Comment }
 
+    it { should_not be_able_to :manage, :profile }
     it { should_not be_able_to :manage, :all }
   end
 
@@ -27,6 +28,7 @@ describe Ability do
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
+    it { should be_able_to :manage, :profile }
 
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }

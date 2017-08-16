@@ -40,5 +40,7 @@ class Ability
     end
 
     can :comment, [Question, Answer]
+
+    can :manage, :profile
   end
 end
