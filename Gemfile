@@ -67,6 +67,7 @@ group :test do
   gem 'faker'
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'json_spec'
 end
 
 group :development do
