@@ -47,7 +47,7 @@ describe Ability do
     it { should be_able_to :update, create(:answer, user: user), user: user }
     it { should_not be_able_to :update, create(:answer, user: other), user: user }
 
-    xit { should be_able_to :set_best, create(:answer, question: question), user: user }
+    it { should be_able_to :set_best, create(:answer, question: question), user: user }
     it { should_not be_able_to :set_best, create(:answer, question: other_question), user: user }
 
     it { should be_able_to :destroy, create(:answer, user: user), user: user }

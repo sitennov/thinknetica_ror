@@ -32,7 +32,7 @@ class Ability
     end
 
     can :set_best, Answer do |answer|
-      answer.question.user.author_of?(answer)
+      user.author_of?(answer.question)
     end
 
     can :destroy, Attachment do |attach|
