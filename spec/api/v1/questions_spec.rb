@@ -127,6 +127,6 @@ describe 'Questions API' do
   end
 
   def do_request(options = {})
-    post "/api/v1/questions", params: { format: :json }.merge(options)
+    post "/api/v1/questions/#{question.id}", params: { format: :json }.merge(options)
   end
 end
