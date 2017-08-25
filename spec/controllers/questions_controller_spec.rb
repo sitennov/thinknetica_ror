@@ -67,8 +67,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'not saves the new question' do
-        expect {
-          post :create, params: { question: attributes_for(:invalid_question) }
+        expect { post :create, params: { question: attributes_for(:invalid_question) }
           }.to_not change(Question, :count)
       end
 
@@ -104,8 +103,8 @@ RSpec.describe QuestionsController, type: :controller do
 
         it 'render update template' do
           patch :update, params: { id: question.id,
-                                   question: attributes_for(:question) },
-                                   format: :js
+                                   question: attributes_for(:question),
+                                   format: :js }
           expect(response).to render_template :update
         end
       end
@@ -118,8 +117,8 @@ RSpec.describe QuestionsController, type: :controller do
 
         it "does not chenges question attributes" do
           patch :update, params: { id: question.id,
-                                   question: attributes_for(:invalid_question) },
-                                   format: :js
+                                   question: attributes_for(:invalid_question),
+                                   format: :js }
           question.reload
           expect(question.title).to_not eq nil
           expect(question.body).to_not eq nil
@@ -127,15 +126,11 @@ RSpec.describe QuestionsController, type: :controller do
 
         it 'render update template' do
           patch :update, params: { id: question.id,
-                                   question: attributes_for(:invalid_question) },
-                                   format: :js
+                                   question: attributes_for(:invalid_question),
+                                   format: :js }
           expect(response).to render_template :update
         end
       end
-    end
-
-    context 'Non author' do
-
     end
   end
 
@@ -174,116 +169,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  # VOTES
-
-  describe 'Author can not vote for his question' do
-    sign_in_user
-    let!(:question) { create(:question, user: @user) }
-
-    context 'POST #vote_up' do
-      it 'trying to vote up his question' do
-        expect { post :vote_up, params: { id: question, format: :json }
-          }.to change(Vote, :count).by(0)
-      end
-    end
-
-    context 'POST #vote_down' do
-      it 'trying to vote down his question' do
-        expect { post :vote_down, params: { id: question,
-                                            format: :json }
-        }.to change(Vote, :count).by(0)
-      end
-    end
-  end
-
-  describe 'User is voting for question of somebody' do
-    let!(:question) { create(:question) }
-    sign_in_user
-
-    context 'POST #vote_up' do
-      it 'assigns the requested question to @votable' do
-        post :vote_up, params: { id: question,
-                                 question: attributes_for(:question),
-                                 format: :json }
-        expect(assigns(:votable)).to eq question
-      end
-
-      it 'is voting up to question (can not do it more than 1 time)' do
-        post :vote_up, params: { id: question, format: :json}
-        post :vote_up, params: { id: question, format: :json}
-        expect(question.rating).to eq 1
-      end
-
-      it 'returns JSON parse' do
-        post :vote_up, params: { id: question,
-                                 question: attributes_for(:question),
-                                 format: :json }
-        json_parse = JSON.parse(response.body)
-        expect(json_parse['rating']).to eq(1)
-      end
-    end
-
-    context 'POST #vote_down' do
-      it 'assigns the requested question to @votable' do
-        post :vote_up, params: { id: question,
-                                 question: attributes_for(:question),
-                                 format: :json }
-        expect(assigns(:votable)).to eq question
-      end
-
-      it 'is voting down to question (can not do it more than 1 time)' do
-        post :vote_down, params: { id: question, format: :json}
-        post :vote_down, params: { id: question, format: :json}
-        expect(question.rating).to eq -1
-      end
-
-      it 'returns JSON parse' do
-        post :vote_down, params: { id: question,
-                                   question: attributes_for(:question),
-                                   format: :json }
-        json_parse = JSON.parse(response.body)
-        expect(json_parse['rating']).to eq(-1)
-      end
-    end
-
-    context 'DELETE #vote_reset' do
-      it 'is voting up to question and reset his vote' do
-        post :vote_up, params: { id: question.id, format: :json }
-        delete :vote_reset, params: { id: question.id, format: :json }
-
-        expect(question.rating).to eq 0
-      end
-    end
-  end
-
-  # COMMENTS
-
-  describe 'POST #comment' do
-    sign_in_user
-    let!(:question) { create(:question) }
-    let(:comment) { attributes_for(:comment) }
-
-    context 'with valid attributes' do
-      it 'added comment' do
-        expect { post :comment, params: { id: question.id,
-                                          comment: comment },
-                                          format: :js
-        }.to change(Comment, :count).by(1)
-      end
-
-      it 'render view association show' do
-        post :comment, params: { id: question.id, comment: comment }, format: :js
-        expect(response).to render_template 'comment'
-      end
-    end
-
-    context 'with invalid attributes' do
-      it 'did not add a comment' do
-        expect { post :comment, params: { id: question.id,
-                                          comment: attributes_for(:invalid_comment) },
-                                          format: :js
-          }.to_not change(Comment, :count)
-      end
-    end
-  end
+  let!(:item) { :question }
+  it_behaves_like "votabled"
+  it_behaves_like "commentabled"
 end
