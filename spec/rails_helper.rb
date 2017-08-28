@@ -1,10 +1,14 @@
-ENV['RAILS_ENV'] ||= 'test'
+ENV['RAILS_ENV'] = 'test'
 require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'capybara/email/rspec'
 require 'capybara/poltergeist'
 require 'cancan/matchers'
+require 'shoulda-matchers'
+require 'sidekiq/testing'
+
+Sidekiq::Testing.inline!
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
@@ -32,6 +36,7 @@ RSpec.configure do |config|
     config.integrate do |with|
       with.test_framework :rspec
       with.library :rails
+      with.library :active_record
     end
   end
 end
