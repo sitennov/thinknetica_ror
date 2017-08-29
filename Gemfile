@@ -53,8 +53,10 @@ gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
 gem 'whenever'
+gem 'sidekiq'
 gem 'sidetiq'
 gem 'redis-rails'
+gem 'sinatra', '>= 1.3.0', require: nil
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
