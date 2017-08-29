@@ -179,6 +179,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    mustermann (1.0.1)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
@@ -317,6 +318,11 @@ GEM
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
+    sinatra (2.0.0)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.0)
+      tilt (~> 2.0)
     skim (0.10.0)
       coffee-script
       coffee-script-source (>= 1.2.0)
@@ -412,8 +418,10 @@ DEPENDENCIES
   rspec-rails (~> 3.5)
   sass-rails
   shoulda-matchers!
+  sidekiq
   sidetiq
   simple_form
+  sinatra (>= 1.3.0)
   skim
   slim-rails
   spring
