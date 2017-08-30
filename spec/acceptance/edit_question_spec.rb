@@ -27,14 +27,12 @@ feature 'Question editing', %q{
     end
 
     scenario 'trying to edit his question with valid attributes' do
-      within "#question-#{question.id} .question" do
+      within "#question-#{question.id}" do
         click_on 'Edit'
         fill_in 'Question title', with: 'Test question111'
         fill_in 'Question body', with: 'text text text111'
         click_on 'Save'
 
-        visit question_path(question)
-        expect(page).to_not have_content question.title
         expect(page).to have_content 'Test question111'
       end
     end
