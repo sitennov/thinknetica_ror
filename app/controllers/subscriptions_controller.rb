@@ -7,7 +7,8 @@ class SubscriptionsController < ApplicationController
   respond_to :js
 
   def create
-    @subscription = current_user.subscriptions.create!(subscription_params)
+    # @subscription = current_user.subscriptions.create!(subscription_params)
+    respond_with(@subscription = Subscription.create(subscription_params.merge(user: current_user)))
   end
 
   def destroy
