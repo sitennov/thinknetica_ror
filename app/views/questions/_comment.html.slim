@@ -1,6 +1,7 @@
 - if item.comments.any?
-  b Comments:
-.comments-list
+  .panel-heading
+    h3 = 'All comments:'
+.comments-list.panel-body
   - item.comments.each do |comment|
     p id = "comment_#{comment.id}"
       = comment.body
@@ -10,6 +11,6 @@
 
 p.comment_errors.bg-danger
 = simple_form_for([item, item.comments.build], url: url, remote: true) do |f|
-  .form-group
+  .form-group.col-md-12
     = f.input :body, label: 'Your comment'
-  = f.submit 'Add comment'
+  = f.submit 'Add comment', class: 'btn btn-success'
