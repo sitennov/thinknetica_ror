@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   use_doorkeeper
 
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+
   devise_scope :user do
     post '/users/auth/sign_up' => 'omniauth_callbacks#sign_up'
   end
@@ -41,6 +42,7 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: [:destroy]
+  resources :subscriptions, only: [:create, :destroy]
 
   namespace :api do
     namespace :v1 do

@@ -18,6 +18,7 @@ class QuestionsController < ApplicationController
   def show
     gon.question_id = @question.id
     gon.question_user_id = @question.user_id
+    @subscription = @question.subscriptions.find_by(user_id: current_user.id) if current_user
     respond_with(@question)
   end
 

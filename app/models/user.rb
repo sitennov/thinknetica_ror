@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def author_of?(entity)
     id == entity.user_id
@@ -29,12 +30,6 @@ class User < ApplicationRecord
     end
     user.create_authorization(auth)
     user
-  end
-
-  def self.send_daily_digest
-    find_each.each do |user|
-      DailyMailer.digest(user).deliver
-    end
   end
 
   def create_authorization(auth)
