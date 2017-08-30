@@ -5,6 +5,8 @@
   .panel-body
     p = link_to 'Back to questions', questions_path
     p = render 'form_question'
+    - if can?(:create, Subscription) || can?(:destory, Subscription)
+      p = render 'subscription'
     p = render 'vote', item: @question
 
     p = @question.body
