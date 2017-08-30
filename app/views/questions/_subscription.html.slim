@@ -2,4 +2,4 @@
   - if @question.subscribed?(current_user)
     = link_to 'Unsubscribe', subscription_path(@subscription), method: :delete, remote: true
   - else
-    = link_to 'Subscribe', subscriptions_path(subscription: { question_id: @question }), method: :post, remote: true
+    = link_to 'Subscribe', subscriptions_path(subscription: { question_id: @question.id }), method: :post, remote: true
