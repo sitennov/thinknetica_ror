@@ -3,12 +3,15 @@
 
 .panel-body
   p = link_to 'Back to questions', questions_path
-  p = render 'form_question'
-  / - if can?(:create, Subscription) || can?(:destory, Subscription)
-  /   p = render 'subscription'
+  = render 'form_question'
   p = render 'vote', item: @question
 
+  hr
+
+  h2 = 'Question body'
   p = @question.body
+
+  hr
 
   - if @question.attachments.any?
     b Attachments:
@@ -21,5 +24,5 @@
                                            method: :delete,
                                            remote: true
 
-  .question-comments
+  .question-comments.panel.panel-default
     = render 'questions/comment', item: @question, url: comment_question_path(@question)
