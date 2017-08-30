@@ -1,32 +1,13 @@
-.panel.panel-default.question id = "question-#{@question.id}"
-  .panel-heading
-    h1 = @question.title
+div id = "question-#{@question.id}"
+  .panel.panel-default.question
+    = render 'question_show'
+  - if can?(:create, Subscription) || can?(:destory, Subscription)
+    p = render 'subscription'
 
-  .panel-body
-    p = link_to 'Back to questions', questions_path
-    p = render 'form_question'
-    p = render 'vote', item: @question
+  .answers
+    h2 = 'Все ответы на вопрос:'
+    = render 'answers/answers'
 
-    p = @question.body
-
-    - if @question.attachments.any?
-      b Attachments:
-      ul.question-files
-        - @question.attachments.each do |a|
-          li id="attachment-#{a.id}"
-            = link_to a.file.identifier, a.file.url
-            - if can?(:destroy, @question)
-              = link_to 'remove attachment', attachment_path(a),
-                                             method: :delete,
-                                             remote: true
-
-    .question-comments
-      = render 'questions/comment', item: @question, url: comment_question_path(@question)
-
-.answers
-  h2 = 'Все ответы на вопрос:'
-  = render 'answers/answers'
-
-- if user_signed_in?
-  p.answer-errors.bg-danger
-  = render 'answers/form_answer'
+  - if user_signed_in?
+    p.answer-errors.bg-danger
+    = render 'answers/form_answer'

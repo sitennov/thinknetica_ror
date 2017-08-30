@@ -4,3 +4,4 @@
 #   http_host: 'example.org',
 #   https: false
 # )
+Sidekiq::Extensions.enable_delay!

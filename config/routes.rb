@@ -1,7 +1,15 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   use_doorkeeper
 
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+
   devise_scope :user do
     post '/users/auth/sign_up' => 'omniauth_callbacks#sign_up'
   end
@@ -34,6 +42,7 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: [:destroy]
+  resources :subscriptions, only: [:create, :destroy]
 
   namespace :api do
     namespace :v1 do
