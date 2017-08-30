@@ -2,6 +2,8 @@ class Answer < ApplicationRecord
   include Votable
   include Commentable
 
+  after_create :notify_subscribers
+
   validates :body, presence: true
 
   belongs_to :user
@@ -20,5 +22,11 @@ class Answer < ApplicationRecord
       question.answers.update_all(best: false)
       update!(best: true)
     end
+  end
+
+  private
+
+  def notify_subscribers
+    NotifySubscribersJob.perform_later(self.question)
   end
 end
