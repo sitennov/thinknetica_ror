@@ -35,8 +35,8 @@ feature 'Question editing', %q{
 
         visit question_path(question)
         expect(page).to_not have_content question.title
+        expect(page).to have_content 'Test question111'
       end
-      expect(page).to have_content 'Test question111'
     end
 
     scenario 'trying to edit his question with invalid attributes' do
