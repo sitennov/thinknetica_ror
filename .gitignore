@@ -29,3 +29,4 @@ config/database.yml
 /public/uploads
 
 config/secrets.yml
+config/initializers/elasticsearch.rb

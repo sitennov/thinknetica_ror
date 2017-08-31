@@ -57,6 +57,8 @@ gem 'sidekiq'
 gem 'sidetiq'
 gem 'redis-rails'
 gem 'sinatra', '>= 1.3.0', require: nil
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
