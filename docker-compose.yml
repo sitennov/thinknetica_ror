@@ -15,6 +15,8 @@ services:
     links:
       - db
       - redis
+      - sphinx
+
   db:
     image: postgres:9.6
     environment:
@@ -23,8 +25,10 @@ services:
       - POSTGRES_DB=sitennov_development
     volumes:
       - ~/volume/postgres-data:/var/lib/postgresql/data
+
   redis:
     image: redis
+
   sidekiq:
     build:
       context: ./
@@ -33,3 +37,16 @@ services:
       - db
       - redis
     command: bundle exec sidekiq -C config/sidekiq.yml
+
+  # sphinx:
+  #   image: leodido/sphinxsearch:latest
+  #   command: ./bin/searchd.sh
+  #   links:
+  #     - db
+  #   volumes:
+  #     - ./config/development.sphinx.conf:/usr/local/etc/sphinx.conf
+
+  elasticsearch:
+    image: elasticsearch
+    volumes:
+      - ~/elasticsearch:/usr/share/elasticsearch/data

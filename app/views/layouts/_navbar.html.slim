@@ -20,9 +20,7 @@
                   data: { method: :delete, confirm: "Are you sure?" },
                   class: 'signout'
               li
-                = "Hi, " + current_user.email
-              li
-                = link_to 'Sidekiq', "http://localhost:4000/sidekiq" if current_user&.admin?
+                = link_to 'Sidekiq', "http://localhost:3000/sidekiq" if current_user&.admin?
             - else
               li
                 = link_to 'Войти', new_user_session_path
