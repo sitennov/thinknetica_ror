@@ -15,7 +15,7 @@ services:
     links:
       - db
       - redis
-      - sphinx
+      - elasticsearch
 
   db:
     image: postgres:9.6
@@ -50,3 +50,6 @@ services:
     image: elasticsearch
     volumes:
       - ~/elasticsearch:/usr/share/elasticsearch/data
+    links:
+      - db
+      - redis
