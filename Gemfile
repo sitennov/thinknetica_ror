@@ -57,8 +57,10 @@ gem 'sidekiq'
 gem 'sidetiq'
 gem 'redis-rails'
 gem 'sinatra', '>= 1.3.0', require: nil
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
+# gem 'elasticsearch-model'
+# gem 'elasticsearch-rails'
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -73,6 +75,7 @@ group :test do
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'capybara'
   gem 'capybara-email'
+  # gem 'capybara-webkit'
   gem 'launchy'
   gem 'faker'
   gem 'poltergeist'

@@ -8,13 +8,16 @@ RSpec.configure do |config|
   config.include WaitForAjax, type: :feature
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with(
-      :truncation,
-      except: %w(ar_internal_metadata))
+    DatabaseCleaner.clean_with(:truncation)
   end
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, :sphinx => true) do
+    # For tests tagged with Sphinx, use deletion (or truncation)
+    DatabaseCleaner.strategy = :deletion
   end
 
   config.before(:each, js: true) do

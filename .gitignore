@@ -30,3 +30,6 @@ config/database.yml
 
 config/secrets.yml
 config/initializers/elasticsearch.rb
+dump.rdb
+config/*.sphinx.conf
+db/sphinx
