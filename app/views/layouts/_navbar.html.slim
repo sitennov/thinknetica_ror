@@ -31,4 +31,4 @@
             .form-group
               = select_tag :search_area, options_for_select(Search::SEARCH_LIST, params[:search_area]), class: 'form-control', prompt: 'All'
               = text_field_tag :query, params[:query], required: true, class: 'form-control', placeholder: 'Search...'
-              = submit_tag 'Submit', class: 'btn btn-default'
+              = submit_tag 'Search', class: 'btn btn-default'

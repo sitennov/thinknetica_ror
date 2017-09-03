@@ -21,15 +21,13 @@
 /yarn-error.log
 
 .byebug_history
-
-config/database.yml
 .idea
 
 # Ignore uploaded files
 /public/uploads
 
 config/secrets.yml
-config/initializers/elasticsearch.rb
-dump.rdb
+config/database.yml
 config/*.sphinx.conf
 db/sphinx
+dump.rdb

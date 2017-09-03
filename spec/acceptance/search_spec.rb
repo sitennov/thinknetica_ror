@@ -17,7 +17,7 @@ feature 'Search all', %q{
 
       select 'All', from: 'search_area'
       fill_in 'query', with: 'something'
-      click_on 'Submit'
+      click_on 'Search'
 
       expect(page).to have_content question.title
       expect(page).to have_content answer.body
@@ -33,7 +33,7 @@ feature 'Search all', %q{
 
         select attr, from: 'search_area'
         fill_in 'query', with: 'something'
-        click_on 'Submit'
+        click_on 'Search'
 
         expect(page).to have_content attr.singularize
       end
