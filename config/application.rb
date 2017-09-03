@@ -20,7 +20,7 @@ module Thinknetica
 
     config.action_cable.disable_request_forgery_protection = false
     config.active_job.queue_adapter = :sidekiq
-    # config.redis = config_for(:redis)
+    config.redis = config_for(:redis)
 
     config.generators do |g|
       g.test_framework :rspec,
