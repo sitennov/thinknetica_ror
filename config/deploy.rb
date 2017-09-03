@@ -6,7 +6,7 @@ set :repo_url, "git@github.com:sitennov/ThinkneticaRoR.git"
 set :deploy_to, "/home/deployer/qna"
 set :deploy_user, 'deployer'
 
-set :linked_files, %w{config/database.yml .env config/thinking_sphinx.yml config/production.sphinx.conf}
+set :linked_files, %w{config/database.yml .env config/thinking_sphinx.yml}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/system public/uploads}
 
 namespace :deploy do
