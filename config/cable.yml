@@ -6,5 +6,3 @@ test:
 
 production:
   adapter: redis
-  url: redis://188.226.177.95/:6379/1
-  channel_prefix: Thinknetica_production
