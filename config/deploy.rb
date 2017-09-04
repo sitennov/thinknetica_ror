@@ -12,6 +12,7 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/system public/upl
 set :sidekiq_processes, 4
 set :sidekiq_options_per_process, [
   "--queue default"
+  "--queue mailers"
 ]
 
 
