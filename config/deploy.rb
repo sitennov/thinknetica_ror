@@ -9,14 +9,21 @@ set :deploy_user, 'deployer'
 set :linked_files, %w{config/database.yml .env config/thinking_sphinx.yml}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/system public/uploads}
 
+set :sidekiq_processes, 4
+set :sidekiq_options_per_process, [
+  "--queue default"
+]
+
+
 namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute :touch, release_path.join('tmp/restart.txt')
+      # execute :touch, release_path.join('tmp/restart.txt')
+      invoke 'unicorn:restart'
     end
   end
 
   after :publishing, :restart
 end
-# after 'deploy:restart', 'thinking_sphinx:restart'
+after 'deploy:restart', 'thinking_sphinx:restart'
