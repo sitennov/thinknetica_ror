@@ -18,6 +18,3 @@
 //= require turbolinks
 //= require_tree ./templates
 //= require_tree .
-
-var App = App || {};
-App.cable = ActionCable.createConsumer("/cable");
