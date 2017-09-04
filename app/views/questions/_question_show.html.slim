@@ -1,28 +1,29 @@
-.panel-heading
-  h1 = @question.title
+- cache @question do
+  .panel-heading
+    h1 = @question.title
 
-.panel-body
-  p = link_to 'Back to questions', questions_path
-  = render 'form_question'
-  p = render 'vote', item: @question
+  .panel-body
+    p = link_to 'Back to questions', questions_path
+    = render 'form_question'
+    p = render 'vote', item: @question
 
-  hr
+    hr
 
-  h2 = 'Question body'
-  p = @question.body
+    h2 = 'Question body'
+    p = @question.body
 
-  hr
+    hr
 
-  - if @question.attachments.any?
-    b Attachments:
-    ul.question-files
-      - @question.attachments.each do |a|
-        li id="attachment-#{a.id}"
-          = link_to a.file.identifier, a.file.url
-          - if can?(:destroy, @question)
-            = link_to 'remove attachment', attachment_path(a),
-                                           method: :delete,
-                                           remote: true
+    - if @question.attachments.any?
+      b Attachments:
+      ul.question-files
+        - @question.attachments.each do |a|
+          li id="attachment-#{a.id}"
+            = link_to a.file.identifier, a.file.url
+            - if can?(:destroy, @question)
+              = link_to 'remove attachment', attachment_path(a),
+                                             method: :delete,
+                                             remote: true
 
   .question-comments.panel.panel-default
     = render 'questions/comment', item: @question, url: comment_question_path(@question)

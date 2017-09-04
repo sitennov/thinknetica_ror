@@ -4,6 +4,7 @@ h1 = 'All questions'
   p
     = link_to 'Ask question', new_question_path, class: 'btn btn-primary'
 
-.list-group.questions-list
-  - @questions.each do |question|
-    = render question
+- cache collection_cache_key_for :question do
+  .list-group.questions-list
+    - @questions.each do |question|
+      = render question
