@@ -4,13 +4,15 @@
 .comments-list.panel-body
   - item.comments.each do |comment|
     p id = "comment_#{comment.id}"
-      = comment.body
+      - cache comment do
+        = comment.body
 
 - if can?(:create, Comment)
   p = link_to 'Leave a comment', '', class: 'btn btn-primary add-comment'
 
 p.comment_errors.bg-danger
-= simple_form_for([item, item.comments.build], url: url, remote: true) do |f|
-  .form-group.col-md-12
-    = f.input :body, label: 'Your comment'
-  = f.submit 'Add comment', class: 'btn btn-success'
+- cache ['comment_form', item]
+  = simple_form_for([item, item.comments.build], url: url, remote: true) do |f|
+    .form-group.col-md-12
+      = f.input :body, label: 'Your comment'
+    = f.submit 'Add comment', class: 'btn btn-success'
