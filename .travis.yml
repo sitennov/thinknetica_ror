@@ -1,9 +1,9 @@
 language: ruby
-dist: trusty
-sudo: required
-
 rvm:
   - 2.4.1
+
+notifications:
+  email: false
 
 services:
   - postgresql
@@ -13,6 +13,7 @@ cache: bundler
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.travis.yml config/database.yml
+  - bundle exec rake db:setup
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3
@@ -24,5 +25,7 @@ after_success:
 - bundle exec codeclimate-test-reporter
 
 script:
-  - 'bundle exec rake db:environment:set RAILS_ENV=test'
   - 'bundle exec rake spec'
+
+gemfile:
+  - Gemfile
